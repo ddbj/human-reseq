@@ -20,6 +20,15 @@ requirements:
 baseCommand: [ java, -Xmx8G, -jar, /picard-tools/picard.jar, CollectMultipleMetrics ]
 
 inputs:
+  - id: experimentID
+    type: string
+    doc: experiment ID for input FastQ file
+  - id: sampleID
+    type: string
+    doc: sample ID for input FastQ file
+  - id: centerID
+    type: string
+    doc: sequencing center ID for input FastQ file
   - id: marked.bam
     type: File
     format: edam:format_2572
@@ -38,11 +47,11 @@ outputs:
   - id: marked.bam.metrics
     type: File
     outputBinding:
-      glob: output.marked.bam.alignment_summary_metrics
+      glob: $(inputs.experimentID).marked.bam.alignment_summary_metrics
 
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=output.marked.bam"
+    valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam"
   - position: 3
     valueFrom: "REFERENCE_SEQUENCE=$(inputs.fadir.path)/$(inputs.ref).fa"
   - position: 4
@@ -62,6 +71,6 @@ arguments:
   - position: 11
     valueFrom: "PROGRAM=CollectSequencingArtifactMetrics"
   - position: 12
-    valueFrom: "TMP_DIR=output.s13.bam_metrics.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).s13.bam_metrics.temp"
   - position: 13
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
