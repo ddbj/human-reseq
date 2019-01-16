@@ -16,7 +16,7 @@ requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
     coresMin: 4
-
+    
 baseCommand: [ bwa, mem ]
 
 inputs:
@@ -60,8 +60,8 @@ outputs:
     type: stdout
     format: edam:format_2573
 
-stdout: output.sam
-
+stdout: $(inputs.experimentID).sam
+    
 arguments:
   - position: 2
     prefix: -K
