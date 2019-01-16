@@ -14,8 +14,6 @@ hints:
 
 requirements:
   - class: ShellCommandRequirement
-  - class: ResourceRequirement
-    coresMin: 4
 
 baseCommand: [ java, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, SortSam ]
 
