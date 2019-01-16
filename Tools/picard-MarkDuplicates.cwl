@@ -20,6 +20,15 @@ requirements:
 baseCommand: [ java, -Xmx8G, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, MarkDuplicates ]
 
 inputs:
+  - id: experimentID
+    type: string
+    doc: experiment ID for input FastQ file
+  - id: sampleID
+    type: string
+    doc: sample ID for input FastQ file
+  - id: centerID
+    type: string
+    doc: sequencing center ID for input FastQ file
   - id: bam
     type: File
     format: edam:format_2572
@@ -33,23 +42,23 @@ outputs:
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: output.marked.bam
+      glob: $(inputs.experimentID).marked.bam
   - id: marked.bai
     type: File
     outputBinding:
-      glob: output.marked.bai
+      glob: $(inputs.experimentID).marked.bai
   - id: marked.bam.stats
     type: File
     outputBinding:
-      glob: output.marked.bam.stats
+      glob: $(inputs.experimentID).marked.bam.stats
 
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=output.marked.bam"
+    valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam"
   - position: 3
-    valueFrom: "METRICS_FILE=output.marked.bam.stats"
+    valueFrom: "METRICS_FILE=$(inputs.experimentID).marked.bam.stats"
   - position: 4
-    valueFrom: "TMP_DIR=output.s12.rmdup.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).s12.rmdup.temp"
   - position: 5
     valueFrom: "COMPRESSION_LEVEL=9"
   - position: 6
