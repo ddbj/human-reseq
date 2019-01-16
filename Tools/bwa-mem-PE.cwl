@@ -67,7 +67,7 @@ arguments:
     prefix: -K
     valueFrom: "10000000"
   - position: 3
-    prefix: "-R"
+    prefix: -R
     valueFrom: "@RG\tID:$(inputs.experimentID)\tPL:ILLUMINA\tPU:$(inputs.experimentID)\tLB:$(inputs.centerID)\tSM:$(inputs.sampleID)"
   - position: 4
     valueFrom: $(inputs.fadir.path)/$(inputs.ref).fa
