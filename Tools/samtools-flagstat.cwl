@@ -20,6 +20,15 @@ requirements:
 baseCommand: [ samtools, flagstat ]
 
 inputs:
+  - id: experimentID
+    type: string
+    doc: experiment ID for input FastQ file
+  - id: sampleID
+    type: string
+    doc: sample ID for input FastQ file
+  - id: centerID
+    type: string
+    doc: sequencing center ID for input FastQ file
   - id: nthreads
     type: int
     default: 4
@@ -37,6 +46,6 @@ outputs:
   - id: flagstat
     type: stdout
 
-stdout: output.marked.bam.flagstat
+stdout: $(inputs.experimentID).marked.bam.flagstat
 
 arguments: []
