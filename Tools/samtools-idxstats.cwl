@@ -18,6 +18,15 @@ requirements:
 baseCommand: [ samtools, idxstats ]
 
 inputs:
+  - id: experimentID
+    type: string
+    doc: experiment ID for input FastQ file
+  - id: sampleID
+    type: string
+    doc: sample ID for input FastQ file
+  - id: centerID
+    type: string
+    doc: sequencing center ID for input FastQ file
   - id: inputDir
     type: Directory
     doc: directory containing input BAM alignment file
@@ -26,8 +35,8 @@ outputs:
   - id: idxstats
     type: stdout
 
-stdout: output.marked.bam.idxstats
+stdout: $(inputs.experimentID).marked.bam.idxstats
 
 arguments:
   - position: 1
-    valueFrom: $(inputs.inputDir.path)/output.marked.bam
+    valueFrom: $(inputs.inputDir.path)/$(inputs.experimentID).marked.bam
