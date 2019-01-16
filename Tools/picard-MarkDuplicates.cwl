@@ -34,6 +34,10 @@ outputs:
     format: edam:format_2572
     outputBinding:
       glob: output.marked.bam
+  - id: marked.bai
+    type: File
+    outputBinding:
+      glob: output.marked.bai
   - id: marked.bam.stats
     type: File
     outputBinding:
