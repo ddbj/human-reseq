@@ -18,6 +18,15 @@ requirements:
 baseCommand: [ java, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, SortSam ]
 
 inputs:
+  - id: experimentID
+    type: string
+    doc: experiment ID for input FastQ file
+  - id: sampleID
+    type: string
+    doc: sample ID for input FastQ file
+  - id: centerID
+    type: string
+    doc: sequencing center ID for input FastQ file
   - id: sam
     type: File
     format: edam:format_2573
@@ -31,13 +40,13 @@ outputs:
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: output.bam
+      glob: $(inputs.experimentID).bam
 
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=output.bam"
+    valueFrom: "OUTPUT=$(inputs.experimentID).bam"
   - position: 3
-    valueFrom: "TMP_DIR=output.s11.bwa_mem_align.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).bam.s11.bwa_mem_align.temp"
   - position: 4
     valueFrom: "SORT_ORDER=coordinate"
   - position: 5
