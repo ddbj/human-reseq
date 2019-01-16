@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-id: bwa-mem-PE-0.7.12
-label: bwa-mem-PE-0.7.12
+id: picard-SortSam-2.10.6
+label: picard-SortSam-2.10.6
 cwlVersion: v1.0
 
 $namespaces:
