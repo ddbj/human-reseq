@@ -37,7 +37,7 @@ arguments:
   - position: 2
     valueFrom: "OUTPUT=output.bam"
   - position: 3
-    valueFrom: "TMP_DIR=output.bam.s11.bwa_mem_align.temp"
+    valueFrom: "TMP_DIR=output.s11.bwa_mem_align.temp"
   - position: 4
     valueFrom: "SORT_ORDER=coordinate"
   - position: 5
