@@ -11,31 +11,36 @@ $namespaces:
 hints:
   - class: DockerRequirement
     dockerPull: 'quay.io/biocontainers/samtools:1.6--0'
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.fadir)
-        writable: true
     
 requirements:
   - class: ShellCommandRequirement
 
-baseCommand: [ samtools, faidx ]
+baseCommand: [ ln, -s ]
 
 inputs:
-  - id: fadir
-    type: Directory
-    doc: directory containing FastA file and index
-  - id: ref
-    type: string
-    doc: name of reference (e.g., hs37d5)
+  - id: fa
+    type: File
+    format: edam:format_1929
+    inputBinding:
+      position: 1
+    doc: FastA file for reference genome
 
 outputs:
   - id: fai
     type: File
     outputBinding:
-      glob: $(inputs.fadir.basename)/$(inputs.ref).fa.fai
+      glob: $(inputs.fa.basename).fai
 
 arguments:
-  - position: 1
-    valueFrom: $(inputs.fadir.path)/$(inputs.ref).fa
+  - position: 2
+    valueFrom: $(inputs.fa.basename)
+  - position: 3
+    valueFrom: "&&"
+  - position: 4
+    valueFrom: "samtools"
+  - position: 5
+    valueFrom: "faidx"
+  - position: 6
+    valueFrom: $(inputs.fa.basename)
+
 
