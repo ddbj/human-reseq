@@ -18,7 +18,7 @@ requirements:
 baseCommand: [ java, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, CreateSequenceDictionary ]
 
 inputs:
-  - id: fa
+  - id: reference
     type: File
     format: edam:format_1929
     inputBinding:
@@ -30,8 +30,8 @@ outputs:
   - id: dict
     type: File
     outputBinding:
-      glob: $(inputs.fa.basename).dict
+      glob: $(inputs.reference.basename).dict
 
 arguments:
   - position: 2
-    valueFrom: "O=$(inputs.fa.basename).dict"
+    valueFrom: "O=$(inputs.reference.basename).dict"
