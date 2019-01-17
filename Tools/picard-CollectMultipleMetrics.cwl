@@ -36,12 +36,13 @@ inputs:
       prefix: "INPUT="
       position: 1
     doc: input BAM alignment file
-  - id: fadir
-    type: Directory
-    doc: directory containing FastA file and index
-  - id: ref
-    type: string
-    doc: name of reference (e.g., hs37d5)
+  - id: reference
+    type: File
+    format: edam:format_1929
+    inputBinding:
+      prefix: "REFERENCE_SEQUENCE="
+      position: 3
+    doc: FastA file for reference genome
 
 outputs:
   - id: marked.bam.metrics
@@ -52,8 +53,6 @@ outputs:
 arguments:
   - position: 2
     valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam"
-  - position: 3
-    valueFrom: "REFERENCE_SEQUENCE=$(inputs.fadir.path)/$(inputs.ref).fa"
   - position: 4
     valueFrom: "PROGRAM=null"
   - position: 5
