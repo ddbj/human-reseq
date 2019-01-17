@@ -15,7 +15,7 @@ hints:
 requirements:
   - class: ShellCommandRequirement
 
-baseCommand: [ samtools, idxstats ]
+baseCommand: [ ln, -s ]
 
 inputs:
   - id: experimentID
@@ -27,9 +27,15 @@ inputs:
   - id: centerID
     type: string
     doc: sequencing center ID for input FastQ file
-  - id: inputDir
-    type: Directory
-    doc: directory containing input BAM alignment file
+  - id: marked_bam
+    type: File
+    format: edam:format_2572
+    inputBinding:
+      position: 1
+    doc: input BAM alignment file
+  - id: marked_bai
+    type: File
+    doc: index for input BAM alignment file
 
 outputs:
   - id: idxstats
@@ -38,5 +44,23 @@ outputs:
 stdout: $(inputs.experimentID).marked.bam.idxstats
 
 arguments:
-  - position: 1
-    valueFrom: $(inputs.inputDir.path)/$(inputs.experimentID).marked.bam
+  - position: 2
+    valueFrom: $(inputs.marked_bam.basename)
+  - position: 3
+    valueFrom: "&&"
+  - position: 4
+    valueFrom: "ln"
+  - position: 5
+    prefix: -s
+    valueFrom: $(inputs.marked_bai.path)
+  - position: 6
+    valueFrom: $(inputs.marked_bam.basename).bai
+  - position: 7
+    valueFrom: "&&"
+  - position: 8
+    valueFrom: "samtools"
+  - position: 9
+    valueFrom: "idxstats"
+  - position: 10
+    valueFrom: $(inputs.marked_bam.basename)
+
