@@ -15,9 +15,9 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 8000
+    ramMin: 12000
 
-baseCommand: [ java, -Xmx8G, -jar, /picard-tools/picard.jar, CollectMultipleMetrics ]
+baseCommand: [ java, -Xmx12G, -jar, /picard-tools/picard.jar, CollectMultipleMetrics ]
 
 inputs:
   - id: experimentID
