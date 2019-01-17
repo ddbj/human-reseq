@@ -15,9 +15,9 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 48000
+    ramMin: 24000
 
-baseCommand: [ java, -Xmx48G, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, MarkDuplicates ]
+baseCommand: [ java, -Xmx24G, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, MarkDuplicates ]
 
 inputs:
   - id: experimentID
