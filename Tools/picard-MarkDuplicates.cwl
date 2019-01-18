@@ -47,11 +47,15 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bai
-  - id: marked.bam.stats
+  - id: marked_bam_stats
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bam.stats
+  - id: marked_bam_log
+    type: stderr
 
+stderr: $(inputs.experimentID).marked.bam.log
+    
 arguments:
   - position: 2
     valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam"
