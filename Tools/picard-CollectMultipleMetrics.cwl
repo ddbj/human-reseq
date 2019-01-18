@@ -49,6 +49,10 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bam.alignment_summary_metrics
+  - id: marked_bam_metrics_log
+    type: stderr
+
+stderr: $(inputs.experimentID).marked.bam.alignment_summary_metrics.log
 
 arguments:
   - position: 2
