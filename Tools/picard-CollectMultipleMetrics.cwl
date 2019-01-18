@@ -29,7 +29,7 @@ inputs:
   - id: centerID
     type: string
     doc: sequencing center ID for input FastQ file
-  - id: marked.bam
+  - id: marked_bam
     type: File
     format: edam:format_2572
     inputBinding:
@@ -45,7 +45,7 @@ inputs:
     doc: FastA file for reference genome
 
 outputs:
-  - id: marked.bam.metrics
+  - id: marked_bam_metrics
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bam.alignment_summary_metrics
