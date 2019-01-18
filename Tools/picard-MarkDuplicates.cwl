@@ -38,12 +38,12 @@ inputs:
     doc: input BAM alignment file (should be sorted)
 
 outputs:
-  - id: marked.bam
+  - id: marked_bam
     type: File
     format: edam:format_2572
     outputBinding:
       glob: $(inputs.experimentID).marked.bam
-  - id: marked.bai
+  - id: marked_bai
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bai
