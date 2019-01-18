@@ -63,4 +63,12 @@ arguments:
     valueFrom: "idxstats"
   - position: 10
     valueFrom: $(inputs.marked_bam.basename)
+  - position: 11
+    valueFrom: "&&"
+  - position: 12
+    valueFrom: "rm"
+  - position: 13
+    valueFrom: $(inputs.marked_bam.basename)
+  - position: 14
+    valueFrom: $(inputs.marked_bam.basename).bai
 
