@@ -66,6 +66,13 @@ arguments:
   - position: 2
     valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam.$(inputs.reference_interval_name).wgs_metrics"
   - position: 5
-    valueFrom: "TMP_DIR=$(inputs.experimentID).s17.picard_wgs_metrics.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).temp"
   - position: 6
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
+  - position: 7
+    valueFrom: "&&"
+  - position: 8
+    valueFrom: "rm"
+  - position: 9
+    prefix: -rf
+    valueFrom: $(inputs.experimentID).temp
