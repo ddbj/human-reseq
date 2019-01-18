@@ -35,7 +35,7 @@ inputs:
     inputBinding:
       prefix: --threads
       position: 1
-  - id: marked.bam
+  - id: marked_bam
     type: File
     format: edam:format_2572
     inputBinding:
