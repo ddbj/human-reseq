@@ -116,7 +116,7 @@ outputs:
   - id: marked_bam_metrics_log
     type: stderr
 
-stderr: $(inputs.experimentID).marked.bam.alignment_summary_metrics.log
+stderr: $(inputs.experimentID).marked.bam.collect_multiple_metrics.log
 
 arguments:
   - position: 2
