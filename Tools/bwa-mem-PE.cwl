@@ -89,8 +89,11 @@ outputs:
   - id: sam
     type: stdout
     format: edam:format_2573
+  - id: sam_log
+    type: stderr
 
 stdout: $(inputs.experimentID).sam
+stderr: $(inputs.experimentID).sam.log
     
 arguments:
   - position: 2
