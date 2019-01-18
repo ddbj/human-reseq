@@ -42,5 +42,11 @@ arguments:
     valueFrom: "faidx"
   - position: 6
     valueFrom: $(inputs.fa.basename)
+  - position: 7
+    valueFrom: "&&"
+  - position: 8
+    valueFrom: "rm"
+  - position: 9
+    valueFrom: $(inputs.fa.basename)
 
 
