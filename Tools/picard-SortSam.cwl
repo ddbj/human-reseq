@@ -50,10 +50,17 @@ arguments:
   - position: 2
     valueFrom: "OUTPUT=$(inputs.experimentID).bam"
   - position: 3
-    valueFrom: "TMP_DIR=$(inputs.experimentID).bam.s11.bwa_mem_align.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).bam.temp"
   - position: 4
     valueFrom: "SORT_ORDER=coordinate"
   - position: 5
     valueFrom: "COMPRESSION_LEVEL=1"
   - position: 6
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
+  - position: 7
+    valueFrom: "&&"
+  - position: 8
+    valueFrom: "rm"
+  - position: 9
+    prefix: -rf
+    valueFrom: $(inputs.experimentID).bam.temp
