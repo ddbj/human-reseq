@@ -74,6 +74,13 @@ arguments:
   - position: 11
     valueFrom: "PROGRAM=CollectSequencingArtifactMetrics"
   - position: 12
-    valueFrom: "TMP_DIR=$(inputs.experimentID).s13.bam_metrics.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).temp"
   - position: 13
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
+  - position: 14
+    valueFrom: "&&"
+  - position: 15
+    valueFrom: "rm"
+  - position: 16
+    prefix: -rf
+    valueFrom: $(inputs.experimentID).temp
