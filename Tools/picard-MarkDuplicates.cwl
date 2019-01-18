@@ -62,7 +62,7 @@ arguments:
   - position: 3
     valueFrom: "METRICS_FILE=$(inputs.experimentID).marked.bam.stats"
   - position: 4
-    valueFrom: "TMP_DIR=$(inputs.experimentID).s12.rmdup.temp"
+    valueFrom: "TMP_DIR=$(inputs.experimentID).temp"
   - position: 5
     valueFrom: "COMPRESSION_LEVEL=9"
   - position: 6
@@ -73,3 +73,10 @@ arguments:
     valueFrom: "REMOVE_DUPLICATES=true"
   - position: 9
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
+  - position: 10
+    valueFrom: "&&"
+  - position: 11
+    valueFrom: "rm"
+  - position: 12
+    prefix: -rf
+    valueFrom: $(inputs.experimentID).temp
