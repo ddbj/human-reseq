@@ -41,7 +41,11 @@ outputs:
     format: edam:format_2572
     outputBinding:
       glob: $(inputs.experimentID).bam
+  - id: bam_log
+    type: stderr
 
+stderr: $(inputs.experimentID).bam.log
+    
 arguments:
   - position: 2
     valueFrom: "OUTPUT=$(inputs.experimentID).bam"
