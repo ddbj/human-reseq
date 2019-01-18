@@ -57,6 +57,10 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bam.$(inputs.reference_interval_name).wgs_metrics
+  - id: marked_bam_wgs_metrics_log
+    type: stderr
+
+stderr: $(inputs.experimentID).marked.bam.$(inputs.reference_interval_name).wgs_metrics.log
 
 arguments:
   - position: 2
