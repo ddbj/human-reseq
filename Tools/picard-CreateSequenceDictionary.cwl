@@ -31,6 +31,10 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.reference.basename).dict
+  - id: dict_log
+    type: stderr
+
+stderr: $(inputs.reference.basename).dict.log
 
 arguments:
   - position: 2
