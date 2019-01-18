@@ -142,3 +142,19 @@ arguments:
     valueFrom: "@RG\tID:$(inputs.experimentID)\tPL:ILLUMINA\tPU:$(inputs.experimentID)\tLB:$(inputs.centerID)\tSM:$(inputs.sampleID)"
   - position: 29
     valueFrom: $(inputs.reference.basename)
+  - position: 32
+    valueFrom: "&&"
+  - position: 33
+    valueFrom: "rm"
+  - position: 34
+    valueFrom: $(inputs.reference.basename)
+  - position: 35
+    valueFrom: $(inputs.reference.basename).amb
+  - position: 36
+    valueFrom: $(inputs.reference.basename).ann
+  - position: 37
+    valueFrom: $(inputs.reference.basename).bwt
+  - position: 38
+    valueFrom: $(inputs.reference.basename).pac
+  - position: 39
+    valueFrom: $(inputs.reference.basename).sa
