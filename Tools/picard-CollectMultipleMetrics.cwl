@@ -45,10 +45,74 @@ inputs:
     doc: FastA file for reference genome
 
 outputs:
-  - id: marked_bam_metrics
+  - id: alignment_summary_metrics
     type: File
     outputBinding:
       glob: $(inputs.experimentID).marked.bam.alignment_summary_metrics
+  - id: bait_bias_detail_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.bait_bias_detail_metrics
+  - id: bait_bias_summary_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.bait_bias_summary_metrics
+  - id: base_distribution_by_cycle_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.base_distribution_by_cycle_metrics
+  - id: base_distribution_by_cycle_pdf
+    type: File
+    outputBinding: 
+      glob: $(inputs.experimentID).marked.bam.base_distribution_by_cycle.pdf
+  - id: error_summary_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.error_summary_metrics
+  - id: gc_bias.detail_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.gc_bias.detail_metrics
+  - id: gc_bias_pdf
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.gc_bias.pdf
+  - id: gc_bias.summary_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.gc_bias.summary_metrics
+  - id: insert_size_histogram_pdf
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.insert_size_histogram.pdf
+  - id: insert_size_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.insert_size_metrics
+  - id: pre_adapter_detail_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.pre_adapter_detail_metrics
+  - id: pre_adapter_summary_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.pre_adapter_summary_metrics
+  - id: quality_by_cycle_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.quality_by_cycle_metrics
+  - id: quality_by_cycle_pdf
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.quality_by_cycle.pdf
+  - id: quality_distribution_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.quality_distribution_metrics
+  - id: quality_distribution_pdf
+    type: File
+    outputBinding:
+      glob: $(inputs.experimentID).marked.bam.quality_distribution.pdf
   - id: marked_bam_metrics_log
     type: stderr
 
