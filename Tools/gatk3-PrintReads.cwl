@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-id: gatk3-BaseRecalibrator-after-3.7.0
-label: gatk3-BaseRecalibrator-after-3.7.0
+id: gatk3-PrintReads-3.7.0
+label: gatk3-PrintReads-3.7.0
 cwlVersion: v1.0
 
 $namespaces:
