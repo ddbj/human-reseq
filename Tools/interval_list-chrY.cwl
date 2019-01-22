@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-id: interval_list-autosomal-14.04
-label: interval_list-autosomal-14.04
+id: interval_list-chrY-14.04
+label: interval_list-chrY-14.04
 cwlVersion: v1.0
 
 $namespaces:
