@@ -14,19 +14,12 @@ hints:
 
 requirements:
   - class: ShellCommandRequirement
+  - class: ResourceRequirement
+    ramMin: 6300
 
 baseCommand: [ java, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, SortSam ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
   - id: sam
     type: File
     format: edam:format_2573
@@ -34,23 +27,25 @@ inputs:
       prefix: "INPUT="
       position: 1
     doc: input SAM alignment file
+  - id: outprefix
+    type: string
 
 outputs:
   - id: bam
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: $(inputs.experimentID).bam
+      glob: $(inputs.outprefix).bam
   - id: bam_log
     type: stderr
 
-stderr: $(inputs.experimentID).bam.log
+stderr: $(inputs.outprefix).bam.log
     
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=$(inputs.experimentID).bam"
+    valueFrom: "OUTPUT=$(inputs.outprefix).bam"
   - position: 3
-    valueFrom: "TMP_DIR=$(inputs.experimentID).bam.temp"
+    valueFrom: "TMP_DIR=$(inputs.outprefix).bam.temp"
   - position: 4
     valueFrom: "SORT_ORDER=coordinate"
   - position: 5
@@ -63,4 +58,4 @@ arguments:
     valueFrom: "rm"
   - position: 9
     prefix: -rf
-    valueFrom: $(inputs.experimentID).bam.temp
+    valueFrom: $(inputs.outprefix).bam.temp
