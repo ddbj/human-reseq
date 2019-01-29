@@ -79,7 +79,6 @@ inputs:
     doc: FastQ file from next-generation sequencers
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: -t
       position: 26
