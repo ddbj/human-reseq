@@ -15,20 +15,11 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 24000
+    ramMin: 32000
 
 baseCommand: [ java, -Xmx24G, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, MarkDuplicates ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
   - id: bam
     type: File
     format: edam:format_2572
@@ -36,33 +27,35 @@ inputs:
       prefix: "INPUT="
       position: 1
     doc: input BAM alignment file (should be sorted)
+  - id: outprefix
+    type: string
 
 outputs:
-  - id: marked_bam
+  - id: out_bam
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: $(inputs.experimentID).marked.bam
-  - id: marked_bai
+      glob: $(inputs.outprefix).rmdup.bam
+  - id: out_bai
     type: File
     outputBinding:
-      glob: $(inputs.experimentID).marked.bai
-  - id: marked_bam_stats
+      glob: $(inputs.outprefix).rmdup.bai
+  - id: out_metrics
     type: File
     outputBinding:
-      glob: $(inputs.experimentID).marked.bam.stats
-  - id: marked_bam_log
+      glob: $(inputs.outprefix).rmdup.bam.metrics
+  - id: log
     type: stderr
 
-stderr: $(inputs.experimentID).marked.bam.log
+stderr: $(inputs.outprefix).rmdup.bam.log
     
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam"
+    valueFrom: "OUTPUT=$(inputs.outprefix).rmdup.bam"
   - position: 3
-    valueFrom: "METRICS_FILE=$(inputs.experimentID).marked.bam.stats"
+    valueFrom: "METRICS_FILE=$(inputs.outprefix).rmdup.bam.metrics"
   - position: 4
-    valueFrom: "TMP_DIR=$(inputs.experimentID).temp"
+    valueFrom: "TMP_DIR=$(inputs.outprefix).temp"
   - position: 5
     valueFrom: "COMPRESSION_LEVEL=9"
   - position: 6
@@ -79,4 +72,4 @@ arguments:
     valueFrom: "rm"
   - position: 12
     prefix: -rf
-    valueFrom: $(inputs.experimentID).temp
+    valueFrom: $(inputs.outprefix).temp
