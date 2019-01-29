@@ -72,7 +72,7 @@ inputs:
 outputs:
   - id: vcf
     type: File
-    format: edam:format_3016 # should be confirmed
+    format: edam:format_3016
     outputBinding: 
       glob: $(inputs.marked_bam.basename).hc3.g.vcf.gz
   - id: vcf_tbi
