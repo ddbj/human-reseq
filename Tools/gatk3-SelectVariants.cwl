@@ -31,7 +31,7 @@ inputs:
     doc: sequencing center ID for input FastQ file
   - id: vcf
     type: File
-    format: edam:format_3016 # should be confirmed
+    format: edam:format_3016
     inputBinding:
       prefix: -s
       position: 13
@@ -79,7 +79,7 @@ inputs:
 outputs:
   - id: vcf
     type: File
-    format: edam:format_3016 # should be confirmed
+    format: edam:format_3016
     outputBinding: 
       glob: $(inputs.vcf.basename).$(inputs.regionID).g.vcf.gz
   - id: vcf_tbi
