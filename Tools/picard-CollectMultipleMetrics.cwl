@@ -15,21 +15,12 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 12000
+    ramMin: 32000
 
 baseCommand: [ java, -Xmx12G, -jar, /picard-tools/picard.jar, CollectMultipleMetrics ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
@@ -48,79 +39,79 @@ outputs:
   - id: alignment_summary_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.alignment_summary_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.alignment_summary_metrics
   - id: bait_bias_detail_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.bait_bias_detail_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.bait_bias_detail_metrics
   - id: bait_bias_summary_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.bait_bias_summary_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.bait_bias_summary_metrics
   - id: base_distribution_by_cycle_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.base_distribution_by_cycle_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.base_distribution_by_cycle_metrics
   - id: base_distribution_by_cycle_pdf
     type: File
     outputBinding: 
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.base_distribution_by_cycle.pdf
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.base_distribution_by_cycle.pdf
   - id: error_summary_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.error_summary_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.error_summary_metrics
   - id: gc_bias.detail_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.gc_bias.detail_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.detail_metrics
   - id: gc_bias_pdf
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.gc_bias.pdf
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.pdf
   - id: gc_bias.summary_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.gc_bias.summary_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.summary_metrics
   - id: insert_size_histogram_pdf
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.insert_size_histogram.pdf
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.insert_size_histogram.pdf
   - id: insert_size_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.insert_size_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.insert_size_metrics
   - id: pre_adapter_detail_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.pre_adapter_detail_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.pre_adapter_detail_metrics
   - id: pre_adapter_summary_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.pre_adapter_summary_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.pre_adapter_summary_metrics
   - id: quality_by_cycle_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.quality_by_cycle_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_by_cycle_metrics
   - id: quality_by_cycle_pdf
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.quality_by_cycle.pdf
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_by_cycle.pdf
   - id: quality_distribution_metrics
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.quality_distribution_metrics
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_distribution_metrics
   - id: quality_distribution_pdf
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).collect_multiple_metrics.quality_distribution.pdf
-  - id: marked_bam_metrics_log
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_distribution.pdf
+  - id: log
     type: stderr
 
-stderr: $(inputs.marked_bam.basename).collect_multiple_metrics.log
+stderr: $(inputs.in_bam.basename).collect_multiple_metrics.log
 
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=$(inputs.marked_bam.basename).collect_multiple_metrics"
+    valueFrom: "OUTPUT=$(inputs.in_bam.basename).collect_multiple_metrics"
   - position: 4
     valueFrom: "PROGRAM=null"
   - position: 5
@@ -138,7 +129,7 @@ arguments:
   - position: 11
     valueFrom: "PROGRAM=CollectSequencingArtifactMetrics"
   - position: 12
-    valueFrom: "TMP_DIR=$(inputs.experimentID).temp"
+    valueFrom: "TMP_DIR=temp"
   - position: 13
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
   - position: 14
@@ -147,4 +138,4 @@ arguments:
     valueFrom: "rm"
   - position: 16
     prefix: -rf
-    valueFrom: $(inputs.experimentID).temp
+    valueFrom: temp
