@@ -22,7 +22,7 @@ baseCommand: [ bcftools, concat ]
 inputs:
   - id: vcf_files
     type: File[]
-    format: edam:format_3016 # should be confirmed
+    format: edam:format_3016
     inputBinding:
       position: 4
     doc: input VCF file(s)
