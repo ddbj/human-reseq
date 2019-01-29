@@ -15,7 +15,7 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    coresMin: 4
+    ramMin: 6300
     
 baseCommand: [ ln, -s ]
 
@@ -56,15 +56,21 @@ inputs:
       prefix: -s
       position: 21
     doc: SA index file for reference genome
-  - id: experimentID
+  - id: RG_ID
     type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
+    doc: Read group identifier (ID) in RG line
+  - id: RG_PL
     type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
+    doc: Platform/technology used to produce the read (PL) in RG line
+  - id: RG_PU
     type: string
-    doc: sequencing center ID for input FastQ file
+    doc: Platform Unit (PU) in RG line
+  - id: RG_LB
+    type: string
+    doc: DNA preparation library identifier (LB) in RG line
+  - id: RG_SM
+    type: string
+    doc: Sample (SM) identifier in RG line
   - id: fq1
     type: File
     format: edam:format_1930
@@ -79,11 +85,12 @@ inputs:
     doc: FastQ file from next-generation sequencers
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: -t
       position: 26
     doc: number of cpu cores to be used
+  - id: outprefix
+    type: string
 
 outputs:
   - id: sam
@@ -92,8 +99,8 @@ outputs:
   - id: sam_log
     type: stderr
 
-stdout: $(inputs.experimentID).sam
-stderr: $(inputs.experimentID).sam.log
+stdout: $(inputs.outprefix).sam
+stderr: $(inputs.outprefix).sam.log
     
 arguments:
   - position: 2
@@ -139,7 +146,7 @@ arguments:
     valueFrom: "10000000"
   - position: 28
     prefix: -R
-    valueFrom: "@RG\tID:$(inputs.experimentID)\tPL:ILLUMINA\tPU:$(inputs.experimentID)\tLB:$(inputs.centerID)\tSM:$(inputs.sampleID)"
+    valueFrom: "@RG\tID:$(inputs.RG_ID)\tPL:$(inputs.RG_PL)\tPU:$(inputs.RG_PU)\tLB:$(inputs.RG_LB)\tSM:$(inputs.RG_SM)"
   - position: 29
     valueFrom: $(inputs.reference.basename)
   - position: 32
