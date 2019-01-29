@@ -39,6 +39,7 @@ inputs:
 outputs:
   - id: after_vcf
     type: File
+    format: edam:format_3016
     outputBinding:
       glob: $(inputs.outprefix).g.vcf.gz
 
