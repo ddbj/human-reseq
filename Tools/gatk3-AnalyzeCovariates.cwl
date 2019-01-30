@@ -15,7 +15,7 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 63000
+    ramMin: 6300
 
 baseCommand: [ ln ]
 
