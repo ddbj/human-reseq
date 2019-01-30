@@ -14,38 +14,32 @@ hints:
     
 requirements:
   - class: ShellCommandRequirement
+  - class: ResourceRequirement
+    ramMin: 4000
 
 baseCommand: [ samtools, view ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: --threads
       position: 1
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
       position: 3
     doc: input BAM alignment file
+  - id: outprefix
+    type: string
 
 outputs:
   - id: chrXY_fastq
     type: stdout
     format: edam:format_1930
 
-stdout: $(inputs.experimentID).chrXY.interleaved.fastq.gz
+stdout: $(inputs.outprefix).chrXY.interleaved.fastq.gz
 
 arguments:
   - position: 2
