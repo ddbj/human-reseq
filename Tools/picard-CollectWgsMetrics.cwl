@@ -15,21 +15,12 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 12000
+    ramMin: 20000
 
 baseCommand: [ java, -Xmx12G, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, CollectWgsMetrics ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
@@ -53,20 +44,20 @@ inputs:
     doc: Interval list for reference genome
 
 outputs:
-  - id: marked_bam_wgs_metrics
+  - id: wgs_metrics
     type: File
     outputBinding:
-      glob: $(inputs.experimentID).marked.bam.$(inputs.reference_interval_name).wgs_metrics
-  - id: marked_bam_wgs_metrics_log
+      glob: $(inputs.in_bam.basename).$(inputs.reference_interval_name).wgs_metrics
+  - id: log
     type: stderr
 
-stderr: $(inputs.experimentID).marked.bam.$(inputs.reference_interval_name).wgs_metrics.log
+stderr: $(inputs.in_bam.basename).$(inputs.reference_interval_name).wgs_metrics.log
 
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=$(inputs.experimentID).marked.bam.$(inputs.reference_interval_name).wgs_metrics"
+    valueFrom: "OUTPUT=$(inputs.in_bam.basename).$(inputs.reference_interval_name).wgs_metrics"
   - position: 5
-    valueFrom: "TMP_DIR=$(inputs.experimentID).temp"
+    valueFrom: "TMP_DIR=temp"
   - position: 6
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
   - position: 7
@@ -75,4 +66,4 @@ arguments:
     valueFrom: "rm"
   - position: 9
     prefix: -rf
-    valueFrom: $(inputs.experimentID).temp
+    valueFrom: temp
