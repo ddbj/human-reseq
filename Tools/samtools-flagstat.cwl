@@ -15,27 +15,17 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    coresMin: 4
+    ramMin: 4000
 
 baseCommand: [ samtools, flagstat ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: --threads
       position: 1
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
@@ -46,6 +36,6 @@ outputs:
   - id: flagstat
     type: stdout
 
-stdout: $(inputs.experimentID).marked.bam.flagstat
+stdout: $(inputs.in_bam.basename).flagstat
 
 arguments: []
