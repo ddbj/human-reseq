@@ -15,28 +15,19 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 98000
+    ramMin: 6300
 
 baseCommand: [ ln ]
 
 inputs: 
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
       prefix: -s
       position: 37
     doc: input BAM alignment file
-  - id: marked_bai
+  - id: in_bai
     type: File
     inputBinding: 
       prefix: -s
@@ -44,7 +35,6 @@ inputs:
     doc: index for input BAM alignment file
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: -nct
       position: 55
@@ -103,11 +93,11 @@ outputs:
   - id: bqsr_table_before
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).bqsr_before.table
-  - id: bqsr_table_before_log
+      glob: $(inputs.in_bam.basename).bqsr_before.table
+  - id: log
     type: stderr
 
-stderr: $(inputs.marked_bam.basename).bqsr_before.table.log
+stderr: $(inputs.in_bam.basename).bqsr_before.table.log
 
 arguments:
   - position: 2
@@ -207,7 +197,7 @@ arguments:
     valueFrom: "reads.bam"
   - position: 58
     prefix: -o
-    valueFrom: $(inputs.marked_bam.basename).bqsr_before.table
+    valueFrom: $(inputs.in_bam.basename).bqsr_before.table
   - position: 59
     prefix: -knownSites
     valueFrom: "dbsnp.vcf"
