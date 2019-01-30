@@ -14,47 +14,40 @@ hints:
 
 requirements:
   - class: ShellCommandRequirement
+  - class: ResourceRequirement
+    ramMin: 4000
 
 baseCommand: [ ln, -s ]
 
 inputs:
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
       position: 1
     doc: input BAM alignment file
-  - id: marked_bai
+  - id: in_bai
     type: File
+    inputBinding:
+      prefix: -s
+      position: 5
     doc: index for input BAM alignment file
 
 outputs:
   - id: idxstats
     type: stdout
 
-stdout: $(inputs.experimentID).marked.bam.idxstats
+stdout: $(inputs.in_bam.basename).idxstats
 
 arguments:
   - position: 2
-    valueFrom: $(inputs.marked_bam.basename)
+    valueFrom: $(inputs.in_bam.basename)
   - position: 3
     valueFrom: "&&"
   - position: 4
     valueFrom: "ln"
-  - position: 5
-    prefix: -s
-    valueFrom: $(inputs.marked_bai.path)
   - position: 6
-    valueFrom: $(inputs.marked_bam.basename).bai
+    valueFrom: $(inputs.in_bam.basename).bai
   - position: 7
     valueFrom: "&&"
   - position: 8
@@ -62,13 +55,13 @@ arguments:
   - position: 9
     valueFrom: "idxstats"
   - position: 10
-    valueFrom: $(inputs.marked_bam.basename)
+    valueFrom: $(inputs.in_bam.basename)
   - position: 11
     valueFrom: "&&"
   - position: 12
     valueFrom: "rm"
   - position: 13
-    valueFrom: $(inputs.marked_bam.basename)
+    valueFrom: $(inputs.in_bam.basename)
   - position: 14
-    valueFrom: $(inputs.marked_bam.basename).bai
+    valueFrom: $(inputs.in_bam.basename).bai
 
