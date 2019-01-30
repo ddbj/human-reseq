@@ -15,20 +15,11 @@ hints:
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
-    ramMin: 3000
+    ramMin: 63000
 
 baseCommand: [ ln ]
 
 inputs: 
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
   - id: reference
     type: File
     format: edam:format_1929
@@ -64,7 +55,7 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.bqsr_table_after.basename).pdf
-  - id: bqsr_pdf_log
+  - id: log
     type: stderr
 
 stderr: $(inputs.bqsr_table_after.basename).pdf.log
