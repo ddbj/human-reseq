@@ -20,23 +20,14 @@ requirements:
 baseCommand: [ ln ]
 
 inputs: 
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
       prefix: -s
       position: 13
     doc: input BAM alignment file
-  - id: marked_bai
+  - id: in_bai
     type: File
     inputBinding: 
       prefix: -s
@@ -44,7 +35,6 @@ inputs:
     doc: index for input BAM alignment file
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: -nct
       position: 31
@@ -74,15 +64,15 @@ outputs:
     type: File
     format: edam:format_3016
     outputBinding: 
-      glob: $(inputs.marked_bam.basename).hc3.g.vcf.gz
+      glob: $(inputs.in_bam.basename).hc3.g.vcf.gz
   - id: vcf_tbi
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).hc3.g.vcf.gz.tbi
-  - id: vcf_log
+      glob: $(inputs.in_bam.basename).hc3.g.vcf.gz.tbi
+  - id: log
     type: stderr
 
-stderr: $(inputs.marked_bam.basename).hc3.g.vcf.gz.log
+stderr: $(inputs.in_bam.basename).hc3.g.vcf.gz.log
 
 arguments:
   - position: 2
@@ -146,7 +136,7 @@ arguments:
     valueFrom: "reads.bam"
   - position: 34
     prefix: -o
-    valueFrom: $(inputs.marked_bam.basename).hc3.g.vcf.gz
+    valueFrom: $(inputs.in_bam.basename).hc3.g.vcf.gz
   - position: 35
     prefix: --emitRefConfidence
     valueFrom: "GVCF"
