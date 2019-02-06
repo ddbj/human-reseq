@@ -58,21 +58,23 @@ inputs:
       position: 9
       prefix: -s
     doc: DICT index file for reference genome
+  - id: outprefix
+    type: string
     
 outputs:
   - id: vcf
     type: File
     format: edam:format_3016
     outputBinding: 
-      glob: $(inputs.in_bam.basename).hc3.g.vcf.gz
+      glob: $(inputs.outprefix).g.vcf.gz
   - id: vcf_tbi
     type: File
     outputBinding:
-      glob: $(inputs.in_bam.basename).hc3.g.vcf.gz.tbi
+      glob: $(inputs.outprefix).g.vcf.gz.tbi
   - id: log
     type: stderr
 
-stderr: $(inputs.in_bam.basename).hc3.g.vcf.gz.log
+stderr: $(inputs.outprefix).g.vcf.gz.log
 
 arguments:
   - position: 2
@@ -136,7 +138,7 @@ arguments:
     valueFrom: "reads.bam"
   - position: 34
     prefix: -o
-    valueFrom: $(inputs.in_bam.basename).hc3.g.vcf.gz
+    valueFrom: $(inputs.outprefix).g.vcf.gz
   - position: 35
     prefix: --emitRefConfidence
     valueFrom: "GVCF"
