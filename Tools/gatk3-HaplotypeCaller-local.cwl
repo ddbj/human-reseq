@@ -20,23 +20,14 @@ requirements:
 baseCommand: [ ln ]
 
 inputs: 
-  - id: experimentID
-    type: string
-    doc: experiment ID for input FastQ file
-  - id: sampleID
-    type: string
-    doc: sample ID for input FastQ file
-  - id: centerID
-    type: string
-    doc: sequencing center ID for input FastQ file
-  - id: marked_bam
+  - id: in_bam
     type: File
     format: edam:format_2572
     inputBinding:
       prefix: -s
       position: 13
     doc: input BAM alignment file
-  - id: marked_bai
+  - id: in_bai
     type: File
     inputBinding: 
       prefix: -s
@@ -44,7 +35,6 @@ inputs:
     doc: index for input BAM alignment file
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: -nct
       position: 31
@@ -68,8 +58,6 @@ inputs:
       position: 9
       prefix: -s
     doc: DICT index file for reference genome
-  - id: regionID
-    type: string
   - id: regionSpan
     type: string
     inputBinding:
@@ -80,21 +68,23 @@ inputs:
     inputBinding:
       position: 35
       prefix: -ploidy
+  - id: outprefix
+    type: string
     
 outputs:
   - id: vcf
     type: File
     format: edam:format_3016
     outputBinding: 
-      glob: $(inputs.marked_bam.basename).hc3.g.vcf.gz.$(inputs.regionID).g.vcf.gz
+      glob: $(inputs.outprefix).g.vcf.gz
   - id: vcf_tbi
     type: File
     outputBinding:
-      glob: $(inputs.marked_bam.basename).hc3.g.vcf.gz.$(inputs.regionID).g.vcf.gz.tbi
-  - id: vcf_log
+      glob: $(inputs.outprefix).g.vcf.gz.tbi
+  - id: log
     type: stderr
 
-stderr: $(inputs.marked_bam.basename).hc3.g.vcf.gz.$(inputs.regionID).g.vcf.gz.log
+stderr: $(inputs.outprefix).g.vcf.gz.log
 
 arguments:
   - position: 2
@@ -158,7 +148,7 @@ arguments:
     valueFrom: "reads.bam"
   - position: 36
     prefix: -o
-    valueFrom: $(inputs.marked_bam.basename).hc3.g.vcf.gz.$(inputs.regionID).g.vcf.gz
+    valueFrom: $(inputs.outprefix).g.vcf.gz
   - position: 37
     prefix: --emitRefConfidence
     valueFrom: "GVCF"
