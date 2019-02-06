@@ -28,7 +28,6 @@ inputs:
     doc: input VCF file(s)
   - id: nthreads
     type: int
-    default: 4
     inputBinding:
       prefix: --threads
       position: 1
