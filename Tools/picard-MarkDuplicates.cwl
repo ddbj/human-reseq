@@ -20,13 +20,16 @@ requirements:
 baseCommand: [ java, -Xmx24G, -jar, /usr/local/share/picard-2.10.6-0/picard.jar, MarkDuplicates ]
 
 inputs:
-  - id: bam
-    type: File
-    format: edam:format_2572
-    inputBinding:
-      prefix: "INPUT="
+  - id: bam_files
+    type:
+      type: array
+      items: File
+      inputBinding:
+        prefix: "INPUT="
+        separate: false
+    inputBinding: 
       position: 1
-    doc: input BAM alignment file (should be sorted)
+    doc: array of input BAM alignment files (each file should be sorted)
   - id: outprefix
     type: string
 
