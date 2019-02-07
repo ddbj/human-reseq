@@ -90,7 +90,7 @@ outputs:
   - id: sam
     type: stdout
     format: edam:format_2573
-  - id: sam_log
+  - id: log
     type: stderr
 
 stdout: $(inputs.outprefix).sam
