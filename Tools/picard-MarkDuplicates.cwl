@@ -38,25 +38,25 @@ outputs:
     type: File
     format: edam:format_2572
     outputBinding:
-      glob: $(inputs.outprefix).rmdup.bam
+      glob: $(inputs.outprefix).bam
   - id: out_bai
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).rmdup.bai
+      glob: $(inputs.outprefix).bai
   - id: out_metrics
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).rmdup.bam.metrics
+      glob: $(inputs.outprefix).bam.metrics
   - id: log
     type: stderr
 
-stderr: $(inputs.outprefix).rmdup.bam.log
+stderr: $(inputs.outprefix).bam.log
     
 arguments:
   - position: 2
-    valueFrom: "OUTPUT=$(inputs.outprefix).rmdup.bam"
+    valueFrom: "OUTPUT=$(inputs.outprefix).bam"
   - position: 3
-    valueFrom: "METRICS_FILE=$(inputs.outprefix).rmdup.bam.metrics"
+    valueFrom: "METRICS_FILE=$(inputs.outprefix).bam.metrics"
   - position: 4
     valueFrom: "TMP_DIR=$(inputs.outprefix).temp"
   - position: 5
