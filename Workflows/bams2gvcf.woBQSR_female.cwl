@@ -84,6 +84,24 @@ steps:
       - quality_distribution_metrics
       - quality_distribution_pdf
       - log
+
+  samtools_flagstat:
+    label: samtools_flagstat
+    doc: Calculate flagstat using samtools
+    run: ../Tools/samtools-flagstat.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      nthreads: nthreads
+    out: [flagstat]
+
+  samtools_idxstats:
+    label: samtools_idxstats
+    doc: Calculate idxstats using samtools
+    run: ../Tools/samtools-idxstats.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      in_bai: picard_MarkDuplicates/out_bai
+    out: [idxstats]
     
 outputs:
   rmdup_bam:
@@ -103,75 +121,84 @@ outputs:
     type: File
     outputSource: picard_MarkDuplicates/log
 
-  alignment_summary_metrics:
+  picard_collect_multiple_metrics_alignment_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/alignment_summary_metrics
     
-  bait_bias_detail_metrics:
+  picard_collect_multiple_metrics_bait_bias_detail_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/bait_bias_detail_metrics
 
-  bait_bias_summary_metrics:
+  picard_collect_multiple_metrics_bait_bias_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/bait_bias_summary_metrics
 
-  base_distribution_by_cycle_metrics:
+  picard_collect_multiple_metrics_base_distribution_by_cycle_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_metrics
 
-  base_distribution_by_cycle_pdf:
+  picard_collect_multiple_metrics_base_distribution_by_cycle_pdf:
     type: File
     outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_pdf
 
-  error_summary_metrics:
+  picard_collect_multiple_metrics_error_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/error_summary_metrics
 
-  gc_bias_detail_metrics:
+  picard_collect_multiple_metrics_gc_bias_detail_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/gc_bias_detail_metrics
 
-  gc_bias_pdf:
+  picard_collect_multiple_metrics_gc_bias_pdf:
     type: File
     outputSource: picard_CollectMultipleMetrics/gc_bias_pdf
 
-  gc_bias_summary_metrics:
+  picard_collect_multiple_metrics_gc_bias_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/gc_bias_summary_metrics
 
-  insert_size_histogram_pdf:
+  picard_collect_multiple_metrics_insert_size_histogram_pdf:
     type: File
     outputSource: picard_CollectMultipleMetrics/insert_size_histogram_pdf
 
-  insert_size_metrics:
+  picard_collect_multiple_metrics_insert_size_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/insert_size_metrics
 
-  pre_adapter_detail_metrics:
+  picard_collect_multiple_metrics_pre_adapter_detail_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/pre_adapter_detail_metrics
 
-  pre_adapter_summary_metrics:
+  picard_collect_multiple_metrics_pre_adapter_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/pre_adapter_summary_metrics
 
-  quality_by_cycle_metrics:
+  picard_collect_multiple_metrics_quality_by_cycle_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/quality_by_cycle_metrics
 
-  quality_by_cycle_pdf:
+  picard_collect_multiple_metrics_quality_by_cycle_pdf:
     type: File
     outputSource: picard_CollectMultipleMetrics/quality_by_cycle_pdf
 
-  quality_distribution_metrics:
+  picard_collect_multiple_metrics_quality_distribution_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/quality_distribution_metrics
 
-  quality_distribution_pdf:
+  picard_collect_multiple_metrics_quality_distribution_pdf:
     type: File
     outputSource: picard_CollectMultipleMetrics/quality_distribution_pdf
 
   picard_collect_multiple_metrics_log:
     type: File
     outputSource: picard_CollectMultipleMetrics/log
+
+  samtools_flagstat_flagstat:
+    type: File
+    outputSource: samtools_flagstat/flagstat
+
+  samtools_idxstats_idxstats:
+    type: File
+    outputSource: samtools_idxstats/idxstats
+
 
