@@ -60,7 +60,7 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.in_bam.basename).collect_multiple_metrics.error_summary_metrics
-  - id: gc_bias.detail_metrics
+  - id: gc_bias_detail_metrics
     type: File
     outputBinding:
       glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.detail_metrics
@@ -68,7 +68,7 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.pdf
-  - id: gc_bias.summary_metrics
+  - id: gc_bias_summary_metrics
     type: File
     outputBinding:
       glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.summary_metrics
