@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: Workflow
-id: fastqPE2bam
-label: fastqPE2bam
+id: bam2gvcf-woBQSR-female
+label: bam2gvcf-woBQSR-female
 cwlVersion: v1.0
 
 $namespaces:
@@ -58,6 +58,33 @@ steps:
       outprefix: outprefix
     out: [out_bam, out_bai, out_metrics, log]
 
+  picard_CollectMultipleMetrics:
+    label: picard_CollectMultipleMetrics
+    doc: Collect multiple metrics using picard
+    run: ../Tools/picard-CollectMultipleMetrics.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      reference: reference
+    out:
+      - alignment_summary_metrics
+      - bait_bias_detail_metrics
+      - bait_bias_summary_metrics
+      - base_distribution_by_cycle_metrics
+      - base_distribution_by_cycle_pdf
+      - error_summary_metrics
+      - gc_bias_detail_metrics
+      - gc_bias_pdf
+      - gc_bias_summary_metrics
+      - insert_size_histogram_pdf
+      - insert_size_metrics
+      - pre_adapter_detail_metrics
+      - pre_adapter_summary_metrics
+      - quality_by_cycle_metrics
+      - quality_by_cycle_pdf
+      - quality_distribution_metrics
+      - quality_distribution_pdf
+      - log
+    
 outputs:
   rmdup_bam:
     type: File
@@ -75,3 +102,76 @@ outputs:
   rmdup_log:
     type: File
     outputSource: picard_MarkDuplicates/log
+
+  alignment_summary_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/alignment_summary_metrics
+    
+  bait_bias_detail_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/bait_bias_detail_metrics
+
+  bait_bias_summary_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/bait_bias_summary_metrics
+
+  base_distribution_by_cycle_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_metrics
+
+  base_distribution_by_cycle_pdf:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_pdf
+
+  error_summary_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/error_summary_metrics
+
+  gc_bias_detail_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/gc_bias_detail_metrics
+
+  gc_bias_pdf:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/gc_bias_pdf
+
+  gc_bias_summary_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/gc_bias_summary_metrics
+
+  insert_size_histogram_pdf:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/insert_size_histogram_pdf
+
+  insert_size_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/insert_size_metrics
+
+  pre_adapter_detail_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/pre_adapter_detail_metrics
+
+  pre_adapter_summary_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/pre_adapter_summary_metrics
+
+  quality_by_cycle_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/quality_by_cycle_metrics
+
+  quality_by_cycle_pdf:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/quality_by_cycle_pdf
+
+  quality_distribution_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/quality_distribution_metrics
+
+  quality_distribution_pdf:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/quality_distribution_pdf
+
+  picard_collect_multiple_metrics_log:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/log
+
