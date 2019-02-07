@@ -34,6 +34,30 @@ inputs:
     type: File
     doc: SA index file for reference genome
 
+  reference_interval_name_autosome:
+    type: string
+    doc: interval name for reference genome (autosome)
+    
+  reference_interval_list_autosome:
+    type: File
+    doc: interval list for reference genome (autosome)
+
+  reference_interval_name_chrX:
+    type: string
+    doc: interval name for reference genome (chrX)
+    
+  reference_interval_list_chrX:
+    type: File
+    doc: interval list for reference genome (chrX)
+
+  reference_interval_name_chrY:
+    type: string
+    doc: interval name for reference genome (chrY)
+    
+  reference_interval_list_chrY:
+    type: File
+    doc: interval list for reference genome (chrY)
+    
   bam_files:
     type: File[]
     format: edam:format_2572
@@ -102,6 +126,39 @@ steps:
       in_bam: picard_MarkDuplicates/out_bam
       in_bai: picard_MarkDuplicates/out_bai
     out: [idxstats]
+
+  picard_CollectWgsMetrics_autosome:
+    label: picard_CollectWgsMetrics
+    doc: Collect WGS metrics using picard
+    run: ../Tools/picard-CollectWgsMetrics.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      reference: reference
+      reference_interval_name: reference_interval_name_autosome
+      reference_interval_list: reference_interval_list_autosome
+    out: [wgs_metrics, log]
+
+  picard_CollectWgsMetrics_chrX:
+    label: picard_CollectWgsMetrics
+    doc: Collect WGS metrics using picard
+    run: ../Tools/picard-CollectWgsMetrics.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      reference: reference
+      reference_interval_name: reference_interval_name_chrX
+      reference_interval_list: reference_interval_list_chrX
+    out: [wgs_metrics, log]
+    
+  picard_CollectWgsMetrics_chrY:
+    label: picard_CollectWgsMetrics
+    doc: Collect WGS metrics using picard
+    run: ../Tools/picard-CollectWgsMetrics.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      reference: reference
+      reference_interval_name: reference_interval_name_chrY
+      reference_interval_list: reference_interval_list_chrY
+    out: [wgs_metrics, log]
     
 outputs:
   rmdup_bam:
@@ -201,4 +258,27 @@ outputs:
     type: File
     outputSource: samtools_idxstats/idxstats
 
+  picard_CollectWgsMetrics_autosome_wgs_metrics:
+    type: File
+    outputSource: picard_CollectWgsMetrics_autosome/wgs_metrics
 
+  picard_CollectWgsMetrics_autosome_log:
+    type: File
+    outputSource: picard_CollectWgsMetrics_autosome/log
+    
+  picard_CollectWgsMetrics_chrX_wgs_metrics:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrX/wgs_metrics
+
+  picard_CollectWgsMetrics_chrX_log:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrX/log
+    
+  picard_CollectWgsMetrics_chrY_wgs_metrics:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrY/wgs_metrics
+
+  picard_CollectWgsMetrics_chrY_log:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrY/log
+    
