@@ -36,7 +36,7 @@ outputs:
     format: edam:format_2572
     outputBinding:
       glob: $(inputs.outprefix).bam
-  - id: bam_log
+  - id: log
     type: stderr
 
 stderr: $(inputs.outprefix).bam.log
