@@ -14,25 +14,13 @@ inputs:
     format: edam:format_1929
     doc: FastA file for reference genome
 
-  reference_amb:
+  reference_fai:
     type: File
-    doc: AMB index file for reference genome
+    doc: FAI index file for reference genome
 
-  reference_ann:
+  reference_dict:
     type: File
-    doc: ANN index file for reference genome
-
-  reference_bwt:
-    type: File
-    doc: BWT index file for reference genome
-
-  reference_pac:
-    type: File
-    doc: PAC index file for reference genome
-
-  reference_sa:
-    type: File
-    doc: SA index file for reference genome
+    doc: DICT index file for reference genome
 
   reference_interval_name_autosome:
     type: string
@@ -159,6 +147,20 @@ steps:
       reference_interval_name: reference_interval_name_chrY
       reference_interval_list: reference_interval_list_chrY
     out: [wgs_metrics, log]
+
+  gatk3_HaplotypeCaller:
+    label: gatk3_HaplotypeCaller
+    doc: Haplotype calling using GATK3
+    run: ../Tools/gatk3-HaplotypeCaller.cwl
+    in:
+      in_bam: picard_MarkDuplicates/out_bam
+      in_bai: picard_MarkDuplicates/out_bai
+      nthreads: nthreads
+      reference: reference
+      reference_fai: reference_fai
+      reference_dict: reference_dict
+      outprefix: outprefix
+    out: [vcf, vcf_tbi, log]
     
 outputs:
   rmdup_bam:
@@ -281,4 +283,17 @@ outputs:
   picard_CollectWgsMetrics_chrY_log:
     type: File
     outputSource: picard_CollectWgsMetrics_chrY/log
+    
+  gatk3_HaplotypeCaller_vcf:
+    type: File
+    format: edam:format_3016
+    outputSource: gatk3_HaplotypeCaller/vcf
+
+  gatk3_HaplotypeCaller_vcf_tbi:
+    type: File
+    outputSource: gatk3_HaplotypeCaller/vcf_tbi
+
+  gatk3_HaplotypeCaller_log:
+    type: File
+    outputSource: gatk3_HaplotypeCaller/log
     
