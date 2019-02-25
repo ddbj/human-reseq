@@ -66,15 +66,15 @@ outputs:
     type: File
     format: edam:format_3016
     outputBinding: 
-      glob: $(inputs.outprefix).chrXPAR1.g.vcf.gz
+      glob: $(inputs.outprefix).chrX_PAR1.g.vcf.gz
   - id: vcf_tbi
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).chrXPAR1.g.vcf.gz.tbi
+      glob: $(inputs.outprefix).chrX_PAR1.g.vcf.gz.tbi
   - id: log
     type: stderr
 
-stderr: $(inputs.outprefix).chrXPAR1.g.vcf.gz.log
+stderr: $(inputs.outprefix).chrX_PAR1.g.vcf.gz.log
 
 arguments:
   - position: 2
@@ -144,7 +144,7 @@ arguments:
     valueFrom: "2"
   - position: 36
     prefix: -o
-    valueFrom: $(inputs.outprefix).chrXPAR1.g.vcf.gz
+    valueFrom: $(inputs.outprefix).chrX_PAR1.g.vcf.gz
   - position: 37
     prefix: --emitRefConfidence
     valueFrom: "GVCF"
