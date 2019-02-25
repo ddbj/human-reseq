@@ -62,12 +62,12 @@ inputs:
     type: string
     
 outputs:
-  - id: vcf
+  - id: out_vcf
     type: File
     format: edam:format_3016
     outputBinding: 
       glob: $(inputs.outprefix).chrX_PAR2.g.vcf.gz
-  - id: vcf_tbi
+  - id: out_vcf_tbi
     type: File
     outputBinding:
       glob: $(inputs.outprefix).chrX_PAR2.g.vcf.gz.tbi
