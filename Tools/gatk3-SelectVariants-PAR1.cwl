@@ -74,7 +74,7 @@ outputs:
   - id: log
     type: stderr
 
-stderr: $(inputs.outprefix).chrX_PAR1g.vcf.gz.log
+stderr: $(inputs.outprefix).chrX_PAR1.g.vcf.gz.log
 
 arguments:
   - position: 2
