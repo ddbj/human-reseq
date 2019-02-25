@@ -8,6 +8,9 @@ cwlVersion: v1.0
 $namespaces:
   edam: 'http://edamontology.org/'
 
+requirements:
+  SubworkflowFeatureRequirement: {}
+  
 inputs:
   reference:
     type: File
@@ -61,239 +64,191 @@ inputs:
 
 
 steps:
-  picard_MarkDuplicates:
-    label: picard_MarkDuplicates
-    doc: Merge BAM files and remove duplicates
-    run: ../Tools/picard-MarkDuplicates.cwl
+  bams2gvcf_woBQSR:
+    label: bams2gvcf_woBQSR
+    doc: Call haplotypes from bam files
+    run: ../Workflows/bams2gvcf.woBQSR.cwl
     in:
       bam_files: bam_files
       outprefix: outprefix
-    out: [out_bam, out_bai, out_metrics, log]
-
-  picard_CollectMultipleMetrics:
-    label: picard_CollectMultipleMetrics
-    doc: Collect multiple metrics using picard
-    run: ../Tools/picard-CollectMultipleMetrics.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      reference: reference
-    out:
-      - alignment_summary_metrics
-      - bait_bias_detail_metrics
-      - bait_bias_summary_metrics
-      - base_distribution_by_cycle_metrics
-      - base_distribution_by_cycle_pdf
-      - error_summary_metrics
-      - gc_bias_detail_metrics
-      - gc_bias_pdf
-      - gc_bias_summary_metrics
-      - insert_size_histogram_pdf
-      - insert_size_metrics
-      - pre_adapter_detail_metrics
-      - pre_adapter_summary_metrics
-      - quality_by_cycle_metrics
-      - quality_by_cycle_pdf
-      - quality_distribution_metrics
-      - quality_distribution_pdf
-      - log
-
-  samtools_flagstat:
-    label: samtools_flagstat
-    doc: Calculate flagstat using samtools
-    run: ../Tools/samtools-flagstat.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      nthreads: nthreads
-    out: [flagstat]
-
-  samtools_idxstats:
-    label: samtools_idxstats
-    doc: Calculate idxstats using samtools
-    run: ../Tools/samtools-idxstats.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
-    out: [idxstats]
-
-  picard_CollectWgsMetrics_autosome:
-    label: picard_CollectWgsMetrics
-    doc: Collect WGS metrics using picard
-    run: ../Tools/picard-CollectWgsMetrics.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      reference: reference
-      reference_interval_name: reference_interval_name_autosome
-      reference_interval_list: reference_interval_list_autosome
-    out: [wgs_metrics, log]
-
-  picard_CollectWgsMetrics_chrX:
-    label: picard_CollectWgsMetrics
-    doc: Collect WGS metrics using picard
-    run: ../Tools/picard-CollectWgsMetrics.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      reference: reference
-      reference_interval_name: reference_interval_name_chrX
-      reference_interval_list: reference_interval_list_chrX
-    out: [wgs_metrics, log]
-    
-  picard_CollectWgsMetrics_chrY:
-    label: picard_CollectWgsMetrics
-    doc: Collect WGS metrics using picard
-    run: ../Tools/picard-CollectWgsMetrics.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      reference: reference
-      reference_interval_name: reference_interval_name_chrY
-      reference_interval_list: reference_interval_list_chrY
-    out: [wgs_metrics, log]
-
-  gatk3_HaplotypeCaller:
-    label: gatk3_HaplotypeCaller
-    doc: Haplotype calling using GATK3
-    run: ../Tools/gatk3-HaplotypeCaller.cwl
-    in:
-      in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
-      nthreads: nthreads
       reference: reference
       reference_fai: reference_fai
       reference_dict: reference_dict
-      outprefix: outprefix
-    out: [vcf, vcf_tbi, log]
+      reference_interval_name_autosome: reference_interval_name_autosome
+      reference_interval_list_autosome: reference_interval_list_autosome
+      reference_interval_name_chrX: reference_interval_name_chrX
+      reference_interval_list_chrX: reference_interval_list_chrX
+      reference_interval_name_chrY: reference_interval_name_chrY
+      reference_interval_list_chrY: reference_interval_list_chrY
+      nthreads: nthreads
+    out:
+      - rmdup_bam
+      - rmdup_bai
+      - rmdup_metrics
+      - rmdup_log
+      - picard_collect_multiple_metrics_alignment_summary_metrics
+      - picard_collect_multiple_metrics_bait_bias_detail_metrics
+      - picard_collect_multiple_metrics_bait_bias_summary_metrics
+      - picard_collect_multiple_metrics_base_distribution_by_cycle_metrics
+      - picard_collect_multiple_metrics_base_distribution_by_cycle_pdf
+      - picard_collect_multiple_metrics_error_summary_metrics
+      - picard_collect_multiple_metrics_gc_bias_detail_metrics
+      - picard_collect_multiple_metrics_gc_bias_pdf
+      - picard_collect_multiple_metrics_gc_bias_summary_metrics
+      - picard_collect_multiple_metrics_insert_size_histogram_pdf
+      - picard_collect_multiple_metrics_insert_size_metrics
+      - picard_collect_multiple_metrics_pre_adapter_detail_metrics
+      - picard_collect_multiple_metrics_pre_adapter_summary_metrics
+      - picard_collect_multiple_metrics_quality_by_cycle_metrics
+      - picard_collect_multiple_metrics_quality_by_cycle_pdf
+      - picard_collect_multiple_metrics_quality_distribution_metrics
+      - picard_collect_multiple_metrics_quality_distribution_pdf
+      - picard_collect_multiple_metrics_log
+      - samtools_flagstat_flagstat
+      - samtools_idxstats_idxstats
+      - picard_CollectWgsMetrics_autosome_wgs_metrics
+      - picard_CollectWgsMetrics_autosome_log
+      - picard_CollectWgsMetrics_chrX_wgs_metrics
+      - picard_CollectWgsMetrics_chrX_log
+      - picard_CollectWgsMetrics_chrY_wgs_metrics
+      - picard_CollectWgsMetrics_chrY_log
+      - gatk3_HaplotypeCaller_vcf
+      - gatk3_HaplotypeCaller_vcf_tbi
+      - gatk3_HaplotypeCaller_log
+
     
 outputs:
   rmdup_bam:
     type: File
     format: edam:format_2572
-    outputSource: picard_MarkDuplicates/out_bam
+    outputSource: bams2gvcf_woBQSR/rmdup_bam
 
   rmdup_bai:
     type: File
-    outputSource: picard_MarkDuplicates/out_bai
+    outputSource: bams2gvcf_woBQSR/rmdup_bai
 
   rmdup_metrics:
     type: File
-    outputSource: picard_MarkDuplicates/out_metrics
+    outputSource: bams2gvcf_woBQSR/rmdup_metrics
 
   rmdup_log:
     type: File
-    outputSource: picard_MarkDuplicates/log
+    outputSource: bams2gvcf_woBQSR/rmdup_log
 
   picard_collect_multiple_metrics_alignment_summary_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/alignment_summary_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_alignment_summary_metrics
     
   picard_collect_multiple_metrics_bait_bias_detail_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/bait_bias_detail_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_bait_bias_detail_metrics
 
   picard_collect_multiple_metrics_bait_bias_summary_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/bait_bias_summary_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_bait_bias_summary_metrics
 
   picard_collect_multiple_metrics_base_distribution_by_cycle_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_base_distribution_by_cycle_metrics
 
   picard_collect_multiple_metrics_base_distribution_by_cycle_pdf:
     type: File
-    outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_pdf
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_base_distribution_by_cycle_pdf
 
   picard_collect_multiple_metrics_error_summary_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/error_summary_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_error_summary_metrics
 
   picard_collect_multiple_metrics_gc_bias_detail_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/gc_bias_detail_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_gc_bias_detail_metrics
 
   picard_collect_multiple_metrics_gc_bias_pdf:
     type: File
-    outputSource: picard_CollectMultipleMetrics/gc_bias_pdf
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_gc_bias_pdf
 
   picard_collect_multiple_metrics_gc_bias_summary_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/gc_bias_summary_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_gc_bias_summary_metrics
 
   picard_collect_multiple_metrics_insert_size_histogram_pdf:
     type: File
-    outputSource: picard_CollectMultipleMetrics/insert_size_histogram_pdf
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_insert_size_histogram_pdf
 
   picard_collect_multiple_metrics_insert_size_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/insert_size_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_insert_size_metrics
 
   picard_collect_multiple_metrics_pre_adapter_detail_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/pre_adapter_detail_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_pre_adapter_detail_metrics
 
   picard_collect_multiple_metrics_pre_adapter_summary_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/pre_adapter_summary_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_pre_adapter_summary_metrics
 
   picard_collect_multiple_metrics_quality_by_cycle_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/quality_by_cycle_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_by_cycle_metrics
 
   picard_collect_multiple_metrics_quality_by_cycle_pdf:
     type: File
-    outputSource: picard_CollectMultipleMetrics/quality_by_cycle_pdf
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_by_cycle_pdf
 
   picard_collect_multiple_metrics_quality_distribution_metrics:
     type: File
-    outputSource: picard_CollectMultipleMetrics/quality_distribution_metrics
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_distribution_metrics
 
   picard_collect_multiple_metrics_quality_distribution_pdf:
     type: File
-    outputSource: picard_CollectMultipleMetrics/quality_distribution_pdf
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_distribution_pdf
 
   picard_collect_multiple_metrics_log:
     type: File
-    outputSource: picard_CollectMultipleMetrics/log
+    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_log
 
   samtools_flagstat_flagstat:
     type: File
-    outputSource: samtools_flagstat/flagstat
+    outputSource: bams2gvcf_woBQSR/samtools_flagstat_flagstat
 
   samtools_idxstats_idxstats:
     type: File
-    outputSource: samtools_idxstats/idxstats
+    outputSource: bams2gvcf_woBQSR/samtools_idxstats_idxstats
 
   picard_CollectWgsMetrics_autosome_wgs_metrics:
     type: File
-    outputSource: picard_CollectWgsMetrics_autosome/wgs_metrics
+    outputSource: bams2gvcf_woBQSR/picard_CollectWgsMetrics_autosome_wgs_metrics
 
   picard_CollectWgsMetrics_autosome_log:
     type: File
-    outputSource: picard_CollectWgsMetrics_autosome/log
+    outputSource: bams2gvcf_woBQSR/picard_CollectWgsMetrics_autosome_log
     
   picard_CollectWgsMetrics_chrX_wgs_metrics:
     type: File
-    outputSource: picard_CollectWgsMetrics_chrX/wgs_metrics
+    outputSource: bams2gvcf_woBQSR/picard_CollectWgsMetrics_chrX_wgs_metrics
 
   picard_CollectWgsMetrics_chrX_log:
     type: File
-    outputSource: picard_CollectWgsMetrics_chrX/log
+    outputSource: bams2gvcf_woBQSR/picard_CollectWgsMetrics_chrX_log
     
   picard_CollectWgsMetrics_chrY_wgs_metrics:
     type: File
-    outputSource: picard_CollectWgsMetrics_chrY/wgs_metrics
+    outputSource: bams2gvcf_woBQSR/picard_CollectWgsMetrics_chrY_wgs_metrics
 
   picard_CollectWgsMetrics_chrY_log:
     type: File
-    outputSource: picard_CollectWgsMetrics_chrY/log
+    outputSource: bams2gvcf_woBQSR/picard_CollectWgsMetrics_chrY_log
     
   gatk3_HaplotypeCaller_vcf:
     type: File
     format: edam:format_3016
-    outputSource: gatk3_HaplotypeCaller/vcf
+    outputSource: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf
 
   gatk3_HaplotypeCaller_vcf_tbi:
     type: File
-    outputSource: gatk3_HaplotypeCaller/vcf_tbi
+    outputSource: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf_tbi
 
   gatk3_HaplotypeCaller_log:
     type: File
-    outputSource: gatk3_HaplotypeCaller/log
+    outputSource: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_log
     
