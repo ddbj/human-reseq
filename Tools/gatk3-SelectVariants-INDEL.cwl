@@ -66,15 +66,15 @@ outputs:
     type: File
     format: edam:format_3016
     outputBinding: 
-      glob: $(inputs.outprefix).INDEL.g.vcf.gz
+      glob: $(inputs.outprefix).INDEL.vcf.gz
   - id: out_vcf_tbi
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).INDEL.g.vcf.gz.tbi
+      glob: $(inputs.outprefix).INDEL.vcf.gz.tbi
   - id: log
     type: stderr
 
-stderr: $(inputs.outprefix).INDEL.g.vcf.gz.log
+stderr: $(inputs.outprefix).INDEL.vcf.gz.log
 
 arguments:
   - position: 2
@@ -141,7 +141,7 @@ arguments:
     valueFrom: "INDEL"
   - position: 35
     prefix: -o
-    valueFrom: $(inputs.outprefix).INDEL.g.vcf.gz
+    valueFrom: $(inputs.outprefix).INDEL.vcf.gz
   - position: 36
     valueFrom: "&&"
   - position: 37
