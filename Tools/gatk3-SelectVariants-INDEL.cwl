@@ -58,21 +58,23 @@ inputs:
       position: 9
       prefix: -s
     doc: DICT index file for reference genome
+  - id: outprefix
+    type: string
     
 outputs:
   - id: out_vcf
     type: File
     format: edam:format_3016
     outputBinding: 
-      glob: $(inputs.vcf.basename).INDEL.g.vcf.gz
+      glob: $(inputs.outprefix).INDEL.g.vcf.gz
   - id: out_vcf_tbi
     type: File
     outputBinding:
-      glob: $(inputs.vcf.basename).INDEL.g.vcf.gz.tbi
+      glob: $(inputs.outprefix).INDEL.g.vcf.gz.tbi
   - id: log
     type: stderr
 
-stderr: $(inputs.vcf.basename).INDEL.g.vcf.gz.log
+stderr: $(inputs.outprefix).INDEL.g.vcf.gz.log
 
 arguments:
   - position: 2
@@ -139,7 +141,7 @@ arguments:
     valueFrom: "INDEL"
   - position: 35
     prefix: -o
-    valueFrom: $(inputs.vcf.basename).INDEL.g.vcf.gz
+    valueFrom: $(inputs.outprefix).INDEL.g.vcf.gz
   - position: 36
     valueFrom: "&&"
   - position: 37
