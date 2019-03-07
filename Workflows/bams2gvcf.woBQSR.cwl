@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: Workflow
-id: bam2gvcf-woBQSR-female
-label: bam2gvcf-woBQSR-female
+id: bam2gvcf-woBQSR
+label: bam2gvcf-woBQSR
 cwlVersion: v1.0
 
 $namespaces:
