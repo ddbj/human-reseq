@@ -52,10 +52,3 @@ arguments:
     valueFrom: "COMPRESSION_LEVEL=1"
   - position: 6
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
-  - position: 7
-    valueFrom: "&&"
-  - position: 8
-    valueFrom: "rm"
-  - position: 9
-    prefix: -rf
-    valueFrom: $(inputs.outprefix).bam.temp
