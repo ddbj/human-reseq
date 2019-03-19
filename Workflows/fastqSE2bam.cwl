@@ -13,26 +13,12 @@ inputs:
     type: File
     format: edam:format_1929
     doc: FastA file for reference genome
-
-  reference_amb:
-    type: File
-    doc: AMB index file for reference genome
-
-  reference_ann:
-    type: File
-    doc: ANN index file for reference genome
-
-  reference_bwt:
-    type: File
-    doc: BWT index file for reference genome
-
-  reference_pac:
-    type: File
-    doc: PAC index file for reference genome
-
-  reference_sa:
-    type: File
-    doc: SA index file for reference genome
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
 
   RG_ID:
     type: string
@@ -75,11 +61,6 @@ steps:
     run: ../Tools/bwa-mem-SE.cwl
     in:
       reference: reference
-      reference_amb: reference_amb
-      reference_ann: reference_ann
-      reference_bwt: reference_bwt
-      reference_pac: reference_pac
-      reference_sa: reference_sa
       RG_ID: RG_ID
       RG_PL: RG_PL
       RG_PU: RG_PU
