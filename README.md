@@ -20,7 +20,15 @@ This repository includes several workflows written in Common Workflow Language (
 - Workflows/bams2gvcf.woBQSR_female.cwl
   - This workflow takes as input a list of BAM files and outpus a genomic VCF file. This workflow does not perform base quality recalibration. This workflow assumes that the target sample is female. 
   - PCR duplicons were removed using picard MarkDuplicates (version 2.10.6), which outputs a BAM file.  
-  - 
+  - Metrics for the merged BAM file were calculated using samtools (1.6), picard CollectMultipleMetrics (version 2.18.23), and picard CollectWgsMetrics (version 2.10.6). 
+  - Variants were called using gatk3 HaplotypeCaller (version 3.7.0) with ploidy=2 option. A genomic VCF file will be output. 
+
+- Workflows/bams2gvcf.woBQSR_male.cwl
+  - This workflow takes as input a list of BAM files and outpus two genomic VCF file (one VCF file is for autosome variants, and another is for sex chromosome variants). This workflow does not perform base quality recalibration. This workflow assumes that the target sample is male. 
+  - PCR duplicons were removed using picard MarkDuplicates (version 2.10.6), which outputs a BAM file.  
+  - Metrics for the merged BAM file were calculated using samtools (1.6), picard CollectMultipleMetrics (version 2.18.23), and picard CollectWgsMetrics (version 2.10.6). 
+  - Variants on autosomes were called using gatk3 HaplotypeCaller (version 3.7.0) with ploidy=2 option. A genomic VCF file for autosome variants will be output.
+  - Variants on sex chromosomes were called using gatk3 HaplotypeCaller (version 3.7.0) with ploidy=2 option for PAR regions and with ploidy=1 option for non-PAR regions. A genomic VCF file for sex chromosome (X/Y) variants will be output.
 
 
 ## Acknowledgment
