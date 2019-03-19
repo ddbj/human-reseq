@@ -1,24 +1,14 @@
 # Human Re-sequencing Data Analysis
 
-## 申し送り事項
+This repository includes several workflows written in Common Workflow Language (CWL) for human resequence data analysis. Before running this workflow, please read GATK3 license, especially for non-academic users. https://software.broadinstitute.org/gatk/about/license.html
 
-- 仙台での会議期間中に確認すること
-    - s32-gvcf_chrXY_PAR2.sh.j2 L.67 -L X:154931044-155260560 -> -L X:154931044-155270560 の間違い？
-    - 各種参照データのダウンロード元、変換方法
 
-- データ解析パイプラインの標準化会議（？）との連携
-    - 解析対象のデータ基準・QC基準を明らかにできると良い（depth基準など）
-    - 複数のGVCFファイルが出力されているが、どれが正式なアウトプットかを決めてほしい
-    - Joint call の扱いをどうするか？
-    - Variant Quality Score Recalibration (VQSR) filter をどうするか？
+## Input FastQ file(s) and output BAM file
 
-- ライセンス
-    - GATK3 for non-academic users
-> 個人ゲノムスパコンのアカウント発行申請書類に、
-「3 が組み込まれたワークフローはこれこれの目的に限定すること」
-を入れておいてユーザに責任がいくようにしておく、という運用上の対策が必要と思います。（児玉さん）
+- Workflows/fastqPE2bam.cwl ... This workflow maps paired-end (PE) fastq files on a human reference genome using BWA MEM (version 0.7.12) and outputs a SAM file. Then, the SAM file was converted into BAM file using picard SortSam command (version 2.10.6). 
 
-- 謝辞
-    - 田高さん
-> これらのサポートについてDDBJでパイプラインを実装した際にウェブサイトのどこかで
-田高先生への acknowledgement を記載するようにすべきと考えています。（清水さん）
+- 
+
+
+## Acknowledgment
+We thank Dr. Shu Tadaka for providing pipeline codes via GitHub (https://github.com/gpc-gr/panel3552-scripts). 
