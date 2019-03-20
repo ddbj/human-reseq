@@ -13,14 +13,9 @@ inputs:
     type: File
     format: edam:format_1929
     doc: FastA file for reference genome
-
-  reference_fai:
-    type: File
-    doc: FAI index file for reference genome
-
-  reference_dict:
-    type: File
-    doc: DICT index file for reference genome
+    secondaryFiles:
+      - .fai
+      - ^.dict
 
   reference_interval_name_autosome:
     type: string
@@ -68,7 +63,7 @@ steps:
     in:
       bam_files: bam_files
       outprefix: outprefix
-    out: [out_bam, out_bai, out_metrics, log]
+    out: [out_bam, out_metrics, log]
 
   picard_CollectMultipleMetrics:
     label: picard_CollectMultipleMetrics
@@ -112,7 +107,6 @@ steps:
     run: ../Tools/samtools-idxstats.cwl
     in:
       in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
     out: [idxstats]
 
   picard_CollectWgsMetrics_autosome:
@@ -154,11 +148,8 @@ steps:
     run: ../Tools/gatk3-HaplotypeCaller.cwl
     in:
       in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: outprefix
     out: [vcf, vcf_tbi, log]
     
@@ -167,10 +158,6 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: picard_MarkDuplicates/out_bam
-
-  rmdup_bai:
-    type: File
-    outputSource: picard_MarkDuplicates/out_bai
 
   rmdup_metrics:
     type: File
