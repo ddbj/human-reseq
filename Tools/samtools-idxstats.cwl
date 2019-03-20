@@ -17,7 +17,7 @@ requirements:
   - class: ResourceRequirement
     ramMin: 4000
 
-baseCommand: [ ln, -s ]
+baseCommand: [ samtools, idxstats ]
 
 inputs:
   - id: in_bam
@@ -26,12 +26,8 @@ inputs:
     inputBinding:
       position: 1
     doc: input BAM alignment file
-  - id: in_bai
-    type: File
-    inputBinding:
-      prefix: -s
-      position: 5
-    doc: index for input BAM alignment file
+    secondaryFiles:
+      - ^.bai
 
 outputs:
   - id: idxstats
@@ -39,29 +35,5 @@ outputs:
 
 stdout: $(inputs.in_bam.basename).idxstats
 
-arguments:
-  - position: 2
-    valueFrom: $(inputs.in_bam.basename)
-  - position: 3
-    valueFrom: "&&"
-  - position: 4
-    valueFrom: "ln"
-  - position: 6
-    valueFrom: $(inputs.in_bam.basename).bai
-  - position: 7
-    valueFrom: "&&"
-  - position: 8
-    valueFrom: "samtools"
-  - position: 9
-    valueFrom: "idxstats"
-  - position: 10
-    valueFrom: $(inputs.in_bam.basename)
-  - position: 11
-    valueFrom: "&&"
-  - position: 12
-    valueFrom: "rm"
-  - position: 13
-    valueFrom: $(inputs.in_bam.basename)
-  - position: 14
-    valueFrom: $(inputs.in_bam.basename).bai
+arguments: []
 
