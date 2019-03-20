@@ -39,10 +39,8 @@ outputs:
     format: edam:format_2572
     outputBinding:
       glob: $(inputs.outprefix).bam
-  - id: out_bai
-    type: File
-    outputBinding:
-      glob: $(inputs.outprefix).bai
+    secondaryFiles:
+      - ^.bai
   - id: out_metrics
     type: File
     outputBinding:
