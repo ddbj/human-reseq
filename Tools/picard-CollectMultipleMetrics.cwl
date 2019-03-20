@@ -132,10 +132,3 @@ arguments:
     valueFrom: "TMP_DIR=temp"
   - position: 13
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
-  - position: 14
-    valueFrom: "&&"
-  - position: 15
-    valueFrom: "rm"
-  - position: 16
-    prefix: -rf
-    valueFrom: temp
