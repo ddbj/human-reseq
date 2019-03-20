@@ -16,14 +16,9 @@ inputs:
     type: File
     format: edam:format_1929
     doc: FastA file for reference genome
-
-  reference_fai:
-    type: File
-    doc: FAI index file for reference genome
-
-  reference_dict:
-    type: File
-    doc: DICT index file for reference genome
+    secondaryFiles:
+      - .fai
+      - ^.dict
 
   reference_interval_name_autosome:
     type: string
@@ -72,8 +67,6 @@ steps:
       bam_files: bam_files
       outprefix: outprefix
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       reference_interval_name_autosome: reference_interval_name_autosome
       reference_interval_list_autosome: reference_interval_list_autosome
       reference_interval_name_chrX: reference_interval_name_chrX
@@ -83,7 +76,6 @@ steps:
       nthreads: nthreads
     out:
       - rmdup_bam
-      - rmdup_bai
       - rmdup_metrics
       - rmdup_log
       - picard_collect_multiple_metrics_alignment_summary_metrics
@@ -122,10 +114,6 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: bams2gvcf_woBQSR/rmdup_bam
-
-  rmdup_bai:
-    type: File
-    outputSource: bams2gvcf_woBQSR/rmdup_bai
 
   rmdup_metrics:
     type: File
