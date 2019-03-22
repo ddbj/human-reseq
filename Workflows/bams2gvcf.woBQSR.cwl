@@ -16,9 +16,11 @@ inputs:
     secondaryFiles:
       - .fai
       - ^.dict
+      - .autosomal.interval_list
 
   reference_interval_name_autosome:
     type: string
+    default: autosome
     doc: interval name for reference genome (autosome)
     
   reference_interval_list_autosome:
@@ -27,6 +29,7 @@ inputs:
 
   reference_interval_name_chrX:
     type: string
+    default: chrX
     doc: interval name for reference genome (chrX)
     
   reference_interval_list_chrX:
@@ -35,6 +38,7 @@ inputs:
 
   reference_interval_name_chrY:
     type: string
+    default: chrY
     doc: interval name for reference genome (chrY)
     
   reference_interval_list_chrY:
@@ -151,7 +155,7 @@ steps:
       nthreads: nthreads
       reference: reference
       outprefix: outprefix
-    out: [vcf, vcf_tbi, log]
+    out: [vcf, log]
     
 outputs:
   rmdup_bam:
@@ -275,10 +279,6 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_HaplotypeCaller/vcf
-
-  gatk3_HaplotypeCaller_vcf_tbi:
-    type: File
-    outputSource: gatk3_HaplotypeCaller/vcf_tbi
 
   gatk3_HaplotypeCaller_log:
     type: File
