@@ -54,10 +54,8 @@ outputs:
     format: edam:format_3016
     outputBinding: 
       glob: $(inputs.outprefix).g.vcf.gz
-  - id: vcf_tbi
-    type: File
-    outputBinding:
-      glob: $(inputs.outprefix).g.vcf.gz.tbi
+    secondaryFiles:
+      - .tbi
   - id: log
     type: stderr
 
