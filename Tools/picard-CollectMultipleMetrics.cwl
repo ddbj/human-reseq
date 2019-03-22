@@ -49,14 +49,18 @@ outputs:
       - ^.gc_bias.detail_metrics
       - ^.gc_bias.pdf
       - ^.gc_bias.summary_metrics
-      - ^.insert_size_histogram.pdf
-      - ^.insert_size_metrics
       - ^.pre_adapter_detail_metrics
       - ^.pre_adapter_summary_metrics
       - ^.quality_by_cycle_metrics
       - ^.quality_by_cycle.pdf
       - ^.quality_distribution_metrics
       - ^.quality_distribution.pdf
+  - id: insert_size_metrics
+    type: File
+    outputBinding:
+      glob: $(inputs.in_bam.basename).collect_multiple_metrics.insert_size_metrics
+    secondaryFiles:
+      - ^.insert_size_histogram.pdf
   - id: log
     type: stderr
 
