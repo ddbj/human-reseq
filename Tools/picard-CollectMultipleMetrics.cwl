@@ -40,70 +40,23 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.in_bam.basename).collect_multiple_metrics.alignment_summary_metrics
-  - id: bait_bias_detail_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.bait_bias_detail_metrics
-  - id: bait_bias_summary_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.bait_bias_summary_metrics
-  - id: base_distribution_by_cycle_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.base_distribution_by_cycle_metrics
-  - id: base_distribution_by_cycle_pdf
-    type: File
-    outputBinding: 
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.base_distribution_by_cycle.pdf
-  - id: error_summary_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.error_summary_metrics
-  - id: gc_bias_detail_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.detail_metrics
-  - id: gc_bias_pdf
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.pdf
-  - id: gc_bias_summary_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.gc_bias.summary_metrics
-  - id: insert_size_histogram_pdf
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.insert_size_histogram.pdf
-  - id: insert_size_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.insert_size_metrics
-  - id: pre_adapter_detail_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.pre_adapter_detail_metrics
-  - id: pre_adapter_summary_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.pre_adapter_summary_metrics
-  - id: quality_by_cycle_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_by_cycle_metrics
-  - id: quality_by_cycle_pdf
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_by_cycle.pdf
-  - id: quality_distribution_metrics
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_distribution_metrics
-  - id: quality_distribution_pdf
-    type: File
-    outputBinding:
-      glob: $(inputs.in_bam.basename).collect_multiple_metrics.quality_distribution.pdf
+    secondaryFiles:
+      - ^.bait_bias_detail_metrics
+      - ^.bait_bias_summary_metrics
+      - ^.base_distribution_by_cycle_metrics
+      - ^.base_distribution_by_cycle.pdf
+      - ^.error_summary_metrics
+      - ^.gc_bias.detail_metrics
+      - ^.gc_bias.pdf
+      - ^.gc_bias.summary_metrics
+      - ^.insert_size_histogram.pdf
+      - ^.insert_size_metrics
+      - ^.pre_adapter_detail_metrics
+      - ^.pre_adapter_summary_metrics
+      - ^.quality_by_cycle_metrics
+      - ^.quality_by_cycle.pdf
+      - ^.quality_distribution_metrics
+      - ^.quality_distribution.pdf
   - id: log
     type: stderr
 
