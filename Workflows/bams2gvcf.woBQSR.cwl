@@ -143,6 +143,8 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: picard_MarkDuplicates/out_bam
+    secondaryFiles:
+      - ^.bai
 
   rmdup_metrics:
     type: File
@@ -155,10 +157,27 @@ outputs:
   picard_collect_multiple_metrics_alignment_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/alignment_summary_metrics
+    secondaryFiles:
+      - ^.bait_bias_detail_metrics
+      - ^.bait_bias_summary_metrics
+      - ^.base_distribution_by_cycle_metrics
+      - ^.base_distribution_by_cycle.pdf
+      - ^.error_summary_metrics
+      - ^.gc_bias.detail_metrics
+      - ^.gc_bias.pdf
+      - ^.gc_bias.summary_metrics
+      - ^.pre_adapter_detail_metrics
+      - ^.pre_adapter_summary_metrics
+      - ^.quality_by_cycle_metrics
+      - ^.quality_by_cycle.pdf
+      - ^.quality_distribution_metrics
+      - ^.quality_distribution.pdf
     
   picard_collect_multiple_metrics_insert_size_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/insert_size_metrics
+    secondaryFiles:
+      - ^.insert_size_histogram.pdf
 
   picard_collect_multiple_metrics_log:
     type: File
@@ -200,6 +219,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_HaplotypeCaller/vcf
+    secondaryFiles:
+      - .tbi
 
   gatk3_HaplotypeCaller_log:
     type: File
