@@ -17,20 +17,20 @@ requirements:
   - class: ResourceRequirement
     ramMin: 6300
 
-baseCommand: [ ln, -s ]
+baseCommand: [ bcftools, index ]
 
 inputs:
   - id: vcf
     type: File
     format: edam:format_3016
     inputBinding:
-      position: 1
+      position: 3
     doc: input VCF file
   - id: nthreads
     type: int
     inputBinding:
       prefix: --threads
-      position: 6
+      position: 1
     doc: number of cpu cores to be used
 
 outputs:
@@ -41,21 +41,7 @@ outputs:
 
 arguments:
   - position: 2
-    valueFrom: $(inputs.vcf.basename)
-  - position: 3
-    valueFrom: "&&"
-  - position: 4
-    valueFrom: "bcftools"
-  - position: 5
-    valueFrom: "index"
-  - position: 7
-    prefix: --tbi
-    valueFrom: $(inputs.vcf.basename)
-  - position: 8
-    valueFrom: "&&"
-  - position: 9
-    valueFrom: "rm"
-  - position: 10
-    valueFrom: $(inputs.vcf.basename)
+    prefix: -o
+    valueFrom: $(inputs.vcf.basename).tbi
 
 
