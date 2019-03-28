@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: Workflow
-id: bam2gvcf-woBQSR-female
-label: bam2gvcf-woBQSR-female
+id: bam2gvcf-woBQSR-female-chrX-wXTR
+label: bam2gvcf-woBQSR-female-chrX-wXTR
 cwlVersion: v1.0
 
 $namespaces:
@@ -15,35 +15,15 @@ inputs:
   reference:
     type: File
     format: edam:format_1929
-    doc: FastA file for reference genome
-
-  reference_amb:
-    type: File
-    doc: AMB index file for reference genome
-
-  reference_ann:
-    type: File
-    doc: ANN index file for reference genome
-
-  reference_bwt:
-    type: File
-    doc: BWT index file for reference genome
-
-  reference_pac:
-    type: File
-    doc: PAC index file for reference genome
-
-  reference_sa:
-    type: File
-    doc: SA index file for reference genome
-
-  reference_fai:
-    type: File
-    doc: FAI index file for reference genome
-
-  reference_dict:
-    type: File
-    doc: DICT index file for reference genome
+    doc: FastA file for reference genom
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
 
   RG_ID:
     type: string
@@ -90,7 +70,7 @@ steps:
     in:
       bam_files: bam_files
       outprefix: outprefix
-    out: [out_bam, out_bai, out_metrics, log]
+    out: [out_bam, out_metrics, log]
 
   samtools_extract_chrXY_unmap:
     label: samtools_extract_chrXY_unmap
@@ -108,11 +88,6 @@ steps:
     run: ../Tools/bwa-mem-SE.cwl
     in:
       reference: reference
-      reference_amb: reference_amb
-      reference_ann: reference_ann
-      reference_bwt: reference_bwt
-      reference_pac: reference_pac
-      reference_sa: reference_sa
       RG_ID: RG_ID
       RG_PL: RG_PL
       RG_PU: RG_PU
@@ -139,7 +114,7 @@ steps:
     in:
       bam_file: picard_SortSam_wXTR/bam
       outprefix: chrXY_outprefix
-    out: [out_bam, out_bai, out_metrics, log]
+    out: [out_bam, out_metrics, log]
     
   gatk3_HaplotypeCaller_X_ploidy2:
     label: gatk3_HaplotypeCaller_X_ploidy2
@@ -147,23 +122,18 @@ steps:
     run: ../Tools/gatk3-HaplotypeCaller-X-ploidy2.cwl
     in:
       in_bam: picard_MarkDuplicates_wXTR/out_bam
-      in_bai: picard_MarkDuplicates_wXTR/out_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: chrXY_outprefix
-    out: [vcf, vcf_tbi, log]
+    out: [vcf, log]
     
 outputs:
   rmdup_bam:
     type: File
     format: edam:format_2572
     outputSource: picard_MarkDuplicates/out_bam
-
-  rmdup_bai:
-    type: File
-    outputSource: picard_MarkDuplicates/out_bai
+    secondaryFiles:
+      - ^.bai
 
   rmdup_metrics:
     type: File
@@ -200,10 +170,8 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: picard_MarkDuplicates_wXTR/out_bam
-
-  picard_MarkDuplicates_wXTR_bai:
-    type: File
-    outputSource: picard_MarkDuplicates_wXTR/out_bai
+    secondaryFiles:
+      - ^.bai
 
   picard_MarkDuplicates_wXTR_metrics:
     type: File
@@ -217,10 +185,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_HaplotypeCaller_X_ploidy2/vcf
-
-  gatk3_HaplotypeCaller_vcf_tbi:
-    type: File
-    outputSource: gatk3_HaplotypeCaller_X_ploidy2/vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_HaplotypeCaller_log:
     type: File
