@@ -64,10 +64,3 @@ arguments:
     valueFrom: "REMOVE_DUPLICATES=true"
   - position: 9
     valueFrom: "VALIDATION_STRINGENCY=LENIENT"
-  - position: 10
-    valueFrom: "&&"
-  - position: 11
-    valueFrom: "rm"
-  - position: 12
-    prefix: -rf
-    valueFrom: $(inputs.outprefix).temp
