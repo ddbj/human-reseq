@@ -17,17 +17,13 @@ inputs:
     type: File
     format: edam:format_1929
     doc: FastA file for reference genome
-
-  reference_fai:
-    type: File
-    doc: FAI index file for reference genome
-
-  reference_dict:
-    type: File
-    doc: DICT index file for reference genome
+    secondaryFiles:
+      - .fai
+      - ^.dict
 
   reference_interval_name_autosome:
     type: string
+    default: autosome
     doc: interval name for reference genome (autosome)
     
   reference_interval_list_autosome:
@@ -36,6 +32,7 @@ inputs:
 
   reference_interval_name_chrX:
     type: string
+    default: chrX
     doc: interval name for reference genome (chrX)
     
   reference_interval_list_chrX:
@@ -44,6 +41,7 @@ inputs:
 
   reference_interval_name_chrY:
     type: string
+    default: chrY
     doc: interval name for reference genome (chrY)
     
   reference_interval_list_chrY:
@@ -76,8 +74,6 @@ steps:
       bam_files: bam_files
       outprefix: outprefix
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       reference_interval_name_autosome: reference_interval_name_autosome
       reference_interval_list_autosome: reference_interval_list_autosome
       reference_interval_name_chrX: reference_interval_name_chrX
@@ -87,26 +83,10 @@ steps:
       nthreads: nthreads
     out:
       - rmdup_bam
-      - rmdup_bai
       - rmdup_metrics
       - rmdup_log
       - picard_collect_multiple_metrics_alignment_summary_metrics
-      - picard_collect_multiple_metrics_bait_bias_detail_metrics
-      - picard_collect_multiple_metrics_bait_bias_summary_metrics
-      - picard_collect_multiple_metrics_base_distribution_by_cycle_metrics
-      - picard_collect_multiple_metrics_base_distribution_by_cycle_pdf
-      - picard_collect_multiple_metrics_error_summary_metrics
-      - picard_collect_multiple_metrics_gc_bias_detail_metrics
-      - picard_collect_multiple_metrics_gc_bias_pdf
-      - picard_collect_multiple_metrics_gc_bias_summary_metrics
-      - picard_collect_multiple_metrics_insert_size_histogram_pdf
       - picard_collect_multiple_metrics_insert_size_metrics
-      - picard_collect_multiple_metrics_pre_adapter_detail_metrics
-      - picard_collect_multiple_metrics_pre_adapter_summary_metrics
-      - picard_collect_multiple_metrics_quality_by_cycle_metrics
-      - picard_collect_multiple_metrics_quality_by_cycle_pdf
-      - picard_collect_multiple_metrics_quality_distribution_metrics
-      - picard_collect_multiple_metrics_quality_distribution_pdf
       - picard_collect_multiple_metrics_log
       - samtools_flagstat_flagstat
       - samtools_idxstats_idxstats
@@ -117,7 +97,6 @@ steps:
       - picard_CollectWgsMetrics_chrY_wgs_metrics
       - picard_CollectWgsMetrics_chrY_log
       - gatk3_HaplotypeCaller_vcf
-      - gatk3_HaplotypeCaller_vcf_tbi
       - gatk3_HaplotypeCaller_log
 
   gatk3_HaplotypeCaller_XCORE_ploidy1:
@@ -126,13 +105,10 @@ steps:
     run: ../Tools/gatk3-HaplotypeCaller-XCORE-ploidy1.cwl
     in:
       in_bam: bams2gvcf_woBQSR/rmdup_bam
-      in_bai: bams2gvcf_woBQSR/rmdup_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: outprefix
-    out: [vcf, vcf_tbi, log]
+    out: [vcf, log]
 
   gatk3_HaplotypeCaller_Y_ploidy1:
     label: gatk3_HaplotypeCaller_Y_ploidy1
@@ -140,13 +116,10 @@ steps:
     run: ../Tools/gatk3-HaplotypeCaller-Y-ploidy1.cwl
     in:
       in_bam: bams2gvcf_woBQSR/rmdup_bam
-      in_bai: bams2gvcf_woBQSR/rmdup_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: outprefix
-    out: [vcf, vcf_tbi, log]
+    out: [vcf, log]
 
   gatk3_SelectVariants_PAR1:
     label: gatk3_SelectVariants_PAR1
@@ -154,13 +127,10 @@ steps:
     run: ../Tools/gatk3-SelectVariants-PAR1.cwl
     in:
       vcf: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf
-      vcf_tbi: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf_tbi
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: outprefix
-    out: [out_vcf, out_vcf_tbi, log]
+    out: [out_vcf, log]
       
   gatk3_SelectVariants_PAR2:
     label: gatk3_SelectVariants_PAR2
@@ -168,13 +138,10 @@ steps:
     run: ../Tools/gatk3-SelectVariants-PAR2.cwl
     in:
       vcf: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf
-      vcf_tbi: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf_tbi
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: outprefix
-    out: [out_vcf, out_vcf_tbi, log]
+    out: [out_vcf, log]
       
   bcftools_concat:
     label: bcftools_concat
@@ -204,10 +171,8 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: bams2gvcf_woBQSR/rmdup_bam
-
-  rmdup_bai:
-    type: File
-    outputSource: bams2gvcf_woBQSR/rmdup_bai
+    secondaryFiles:
+      - ^.bai
 
   rmdup_metrics:
     type: File
@@ -220,70 +185,27 @@ outputs:
   picard_collect_multiple_metrics_alignment_summary_metrics:
     type: File
     outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_alignment_summary_metrics
+    secondaryFiles:
+      - ^.bait_bias_detail_metrics
+      - ^.bait_bias_summary_metrics
+      - ^.base_distribution_by_cycle_metrics
+      - ^.base_distribution_by_cycle.pdf
+      - ^.error_summary_metrics
+      - ^.gc_bias.detail_metrics
+      - ^.gc_bias.pdf
+      - ^.gc_bias.summary_metrics
+      - ^.pre_adapter_detail_metrics
+      - ^.pre_adapter_summary_metrics
+      - ^.quality_by_cycle_metrics
+      - ^.quality_by_cycle.pdf
+      - ^.quality_distribution_metrics
+      - ^.quality_distribution.pdf
     
-  picard_collect_multiple_metrics_bait_bias_detail_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_bait_bias_detail_metrics
-
-  picard_collect_multiple_metrics_bait_bias_summary_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_bait_bias_summary_metrics
-
-  picard_collect_multiple_metrics_base_distribution_by_cycle_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_base_distribution_by_cycle_metrics
-
-  picard_collect_multiple_metrics_base_distribution_by_cycle_pdf:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_base_distribution_by_cycle_pdf
-
-  picard_collect_multiple_metrics_error_summary_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_error_summary_metrics
-
-  picard_collect_multiple_metrics_gc_bias_detail_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_gc_bias_detail_metrics
-
-  picard_collect_multiple_metrics_gc_bias_pdf:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_gc_bias_pdf
-
-  picard_collect_multiple_metrics_gc_bias_summary_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_gc_bias_summary_metrics
-
-  picard_collect_multiple_metrics_insert_size_histogram_pdf:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_insert_size_histogram_pdf
-
   picard_collect_multiple_metrics_insert_size_metrics:
     type: File
     outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_insert_size_metrics
-
-  picard_collect_multiple_metrics_pre_adapter_detail_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_pre_adapter_detail_metrics
-
-  picard_collect_multiple_metrics_pre_adapter_summary_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_pre_adapter_summary_metrics
-
-  picard_collect_multiple_metrics_quality_by_cycle_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_by_cycle_metrics
-
-  picard_collect_multiple_metrics_quality_by_cycle_pdf:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_by_cycle_pdf
-
-  picard_collect_multiple_metrics_quality_distribution_metrics:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_distribution_metrics
-
-  picard_collect_multiple_metrics_quality_distribution_pdf:
-    type: File
-    outputSource: bams2gvcf_woBQSR/picard_collect_multiple_metrics_quality_distribution_pdf
+    secondaryFiles:
+      - ^.insert_size_histogram.pdf
 
   picard_collect_multiple_metrics_log:
     type: File
@@ -325,10 +247,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf
-
-  gatk3_HaplotypeCaller_vcf_tbi:
-    type: File
-    outputSource: bams2gvcf_woBQSR/gatk3_HaplotypeCaller_vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_HaplotypeCaller_log:
     type: File
@@ -338,10 +258,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_HaplotypeCaller_XCORE_ploidy1/vcf
-
-  gatk3_HaplotypeCaller_XCORE_ploidy1_vcf_tbi:
-    type: File
-    outputSource: gatk3_HaplotypeCaller_XCORE_ploidy1/vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_HaplotypeCaller_XCORE_ploidy1_log:
     type: File
@@ -351,10 +269,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_HaplotypeCaller_Y_ploidy1/vcf
-
-  gatk3_HaplotypeCaller_Y_ploidy1_vcf_tbi:
-    type: File
-    outputSource: gatk3_HaplotypeCaller_Y_ploidy1/vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_HaplotypeCaller_Y_ploidy1_log:
     type: File
@@ -364,10 +280,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_SelectVariants_PAR1/out_vcf
-
-  gatk3_SelectVariants_PAR1_vcf_tbi:
-    type: File
-    outputSource: gatk3_SelectVariants_PAR1/out_vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_SelectVariants_PAR1_log:
     type: File
@@ -377,10 +291,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_SelectVariants_PAR2/out_vcf
-
-  gatk3_SelectVariants_PAR2_vcf_tbi:
-    type: File
-    outputSource: gatk3_SelectVariants_PAR2/out_vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_SelectVariants_PAR2_log:
     type: File
