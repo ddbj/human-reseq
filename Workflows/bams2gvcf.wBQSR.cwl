@@ -13,17 +13,13 @@ inputs:
     type: File
     format: edam:format_1929
     doc: FastA file for reference genome
-
-  reference_fai:
-    type: File
-    doc: FAI index file for reference genome
-
-  reference_dict:
-    type: File
-    doc: DICT index file for reference genome
+    secondaryFiles:
+      - .fai
+      - ^.dict
 
   reference_interval_name_autosome:
     type: string
+    default: autosome
     doc: interval name for reference genome (autosome)
     
   reference_interval_list_autosome:
@@ -32,6 +28,7 @@ inputs:
 
   reference_interval_name_chrX:
     type: string
+    default: chrX
     doc: interval name for reference genome (chrX)
     
   reference_interval_list_chrX:
@@ -40,6 +37,7 @@ inputs:
 
   reference_interval_name_chrY:
     type: string
+    default: chrY
     doc: interval name for reference genome (chrY)
     
   reference_interval_list_chrY:
@@ -49,27 +47,20 @@ inputs:
   dbsnp:
     type: File
     doc: dbSNP data file for base recalibrator
-
-  dbsnp_idx:
-    type: File
-    doc: Index for dbSNP data file
+    secondaryFiles:
+      - .idx
 
   mills_indel:
     type: File
     doc: Mills indel data file for base recalibrator
-
-  mills_indel_idx:
-    type: File
-    doc: Index for Mills indel data file
+    secondaryFiles:
+      - .idx
 
   onek_indel:
     type: File
     doc: Onek indel data file for base recalibrator
-
-  onek_indel_idx:
-    type: File
-    doc: Index for Onek indel data file
-    
+    secondaryFiles:
+      - .idx
     
   bam_files:
     type: File[]
@@ -93,7 +84,7 @@ steps:
     in:
       bam_files: bam_files
       outprefix: outprefix
-    out: [out_bam, out_bai, out_metrics, log]
+    out: [out_bam, out_metrics, log]
 
   gatk3_BaseRecalibrator_before:
     label: gatk3_BaseRecalibrator_before
@@ -101,17 +92,11 @@ steps:
     run: ../Tools/gatk3-BaseRecalibrator-before.cwl
     in:
       in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       dbsnp: dbsnp
-      dbsnp_idx: dbsnp_idx
       mills_indel: mills_indel
-      mills_indel_idx: mills_indel_idx
       onek_indel: onek_indel
-      onek_indel_idx: onek_indel_idx
     out: [bqsr_table_before, log]
 
   gatk3_BaseRecalibrator_after:
@@ -120,17 +105,11 @@ steps:
     run: ../Tools/gatk3-BaseRecalibrator-after.cwl
     in:
       in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       dbsnp: dbsnp
-      dbsnp_idx: dbsnp_idx
       mills_indel: mills_indel
-      mills_indel_idx: mills_indel_idx
       onek_indel: onek_indel
-      onek_indel_idx: onek_indel_idx
       bqsr_table_before: gatk3_BaseRecalibrator_before/bqsr_table_before
     out: [bqsr_table_after, log]
 
@@ -140,8 +119,6 @@ steps:
     run: ../Tools/gatk3-AnalyzeCovariates.cwl
     in:
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       bqsr_table_before: gatk3_BaseRecalibrator_before/bqsr_table_before
       bqsr_table_after: gatk3_BaseRecalibrator_after/bqsr_table_after
     out: [bqsr_pdf, log]
@@ -152,14 +129,11 @@ steps:
     run: ../Tools/gatk3-PrintReads.cwl
     in:
       in_bam: picard_MarkDuplicates/out_bam
-      in_bai: picard_MarkDuplicates/out_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       bqsr_table_before: gatk3_BaseRecalibrator_before/bqsr_table_before
       outprefix: outprefix
-    out: [out_bam, out_bai, log]
+    out: [out_bam, log]
     
   picard_CollectMultipleMetrics:
     label: picard_CollectMultipleMetrics
@@ -168,25 +142,7 @@ steps:
     in:
       in_bam: gatk3_PrintReads/out_bam
       reference: reference
-    out:
-      - alignment_summary_metrics
-      - bait_bias_detail_metrics
-      - bait_bias_summary_metrics
-      - base_distribution_by_cycle_metrics
-      - base_distribution_by_cycle_pdf
-      - error_summary_metrics
-      - gc_bias_detail_metrics
-      - gc_bias_pdf
-      - gc_bias_summary_metrics
-      - insert_size_histogram_pdf
-      - insert_size_metrics
-      - pre_adapter_detail_metrics
-      - pre_adapter_summary_metrics
-      - quality_by_cycle_metrics
-      - quality_by_cycle_pdf
-      - quality_distribution_metrics
-      - quality_distribution_pdf
-      - log
+    out: [alignment_summary_metrics, insert_size_metrics, log]
 
   samtools_flagstat:
     label: samtools_flagstat
@@ -203,7 +159,6 @@ steps:
     run: ../Tools/samtools-idxstats.cwl
     in:
       in_bam: gatk3_PrintReads/out_bam
-      in_bai: gatk3_PrintReads/out_bai
     out: [idxstats]
 
   picard_CollectWgsMetrics_autosome:
@@ -246,23 +201,18 @@ steps:
     run: ../Tools/gatk3-HaplotypeCaller.cwl
     in:
       in_bam: gatk3_PrintReads/out_bam
-      in_bai: gatk3_PrintReads/out_bai
       nthreads: nthreads
       reference: reference
-      reference_fai: reference_fai
-      reference_dict: reference_dict
       outprefix: outprefix
-    out: [vcf, vcf_tbi, log]
+    out: [vcf, log]
     
 outputs:
   rmdup_bam:
     type: File
     format: edam:format_2572
     outputSource: picard_MarkDuplicates/out_bam
-
-  rmdup_bai:
-    type: File
-    outputSource: picard_MarkDuplicates/out_bai
+    secondaryFiles:
+      - ^.bai
 
   rmdup_metrics:
     type: File
@@ -275,70 +225,27 @@ outputs:
   picard_collect_multiple_metrics_alignment_summary_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/alignment_summary_metrics
+    secondaryFiles:
+      - ^.bait_bias_detail_metrics
+      - ^.bait_bias_summary_metrics
+      - ^.base_distribution_by_cycle_metrics
+      - ^.base_distribution_by_cycle.pdf
+      - ^.error_summary_metrics
+      - ^.gc_bias.detail_metrics
+      - ^.gc_bias.pdf
+      - ^.gc_bias.summary_metrics
+      - ^.pre_adapter_detail_metrics
+      - ^.pre_adapter_summary_metrics
+      - ^.quality_by_cycle_metrics
+      - ^.quality_by_cycle.pdf
+      - ^.quality_distribution_metrics
+      - ^.quality_distribution.pdf
     
-  picard_collect_multiple_metrics_bait_bias_detail_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/bait_bias_detail_metrics
-
-  picard_collect_multiple_metrics_bait_bias_summary_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/bait_bias_summary_metrics
-
-  picard_collect_multiple_metrics_base_distribution_by_cycle_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_metrics
-
-  picard_collect_multiple_metrics_base_distribution_by_cycle_pdf:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/base_distribution_by_cycle_pdf
-
-  picard_collect_multiple_metrics_error_summary_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/error_summary_metrics
-
-  picard_collect_multiple_metrics_gc_bias_detail_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/gc_bias_detail_metrics
-
-  picard_collect_multiple_metrics_gc_bias_pdf:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/gc_bias_pdf
-
-  picard_collect_multiple_metrics_gc_bias_summary_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/gc_bias_summary_metrics
-
-  picard_collect_multiple_metrics_insert_size_histogram_pdf:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/insert_size_histogram_pdf
-
   picard_collect_multiple_metrics_insert_size_metrics:
     type: File
     outputSource: picard_CollectMultipleMetrics/insert_size_metrics
-
-  picard_collect_multiple_metrics_pre_adapter_detail_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/pre_adapter_detail_metrics
-
-  picard_collect_multiple_metrics_pre_adapter_summary_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/pre_adapter_summary_metrics
-
-  picard_collect_multiple_metrics_quality_by_cycle_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/quality_by_cycle_metrics
-
-  picard_collect_multiple_metrics_quality_by_cycle_pdf:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/quality_by_cycle_pdf
-
-  picard_collect_multiple_metrics_quality_distribution_metrics:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/quality_distribution_metrics
-
-  picard_collect_multiple_metrics_quality_distribution_pdf:
-    type: File
-    outputSource: picard_CollectMultipleMetrics/quality_distribution_pdf
+    secondaryFiles:
+      - ^.insert_size_histogram.pdf
 
   picard_collect_multiple_metrics_log:
     type: File
@@ -404,10 +311,8 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: gatk3_PrintReads/out_bam
-
-  gatk3_PrintReads_out_bai:
-    type: File
-    outputSource: gatk3_PrintReads/out_bai
+    secondaryFiles:
+      - ^.bai
 
   gatk3_PrintReads_log:
     type: File
@@ -417,10 +322,8 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: gatk3_HaplotypeCaller/vcf
-
-  gatk3_HaplotypeCaller_vcf_tbi:
-    type: File
-    outputSource: gatk3_HaplotypeCaller/vcf_tbi
+    secondaryFiles:
+      - .tbi
 
   gatk3_HaplotypeCaller_log:
     type: File
