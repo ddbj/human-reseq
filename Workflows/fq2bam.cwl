@@ -38,9 +38,24 @@ inputs:
     type:
       type: array
       items:
-        type: array
-        items: File
-    format: edam:format_1930
+        type: record
+        fields:
+          - name: fq1
+            type: File # seems file format cannot be specified
+          - name: fq2
+            type: File # seems file format cannot be specified
+          - name: header
+            type: string
+          - name: opt
+            type:
+              - type: record
+                fields:
+                  - name: a
+                    type: string
+                  - name: b
+                    type: string
+
+#    format: edam:format_1930
     doc: FastQ file from next-generation sequencers
 
 steps:

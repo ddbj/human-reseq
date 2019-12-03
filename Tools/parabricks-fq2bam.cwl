@@ -48,14 +48,42 @@ inputs:
     type:
       type: array
       items:
-        type: array
-        items: File
+        type: record
+        fields:
+          - name: fq1
+            type: File # seems file format cannot be specified
+            inputBinding:
+              position: 0
+          - name: fq2
+            type: File # seems file format cannot be specified
+            inputBinding:
+              position: 1
+          - name: header
+            type: string
+            inputBinding:
+              position: 2
+          - name: opt
+            type:
+              - type: record
+                fields:
+                  - name: a
+                    type: string
+                  - name: b
+                    type: string
+            inputBinding:
+              position: 3
+              valueFrom: $(self.a)\\t$(self.b)
+#          - name: ddddd
+#            type: null
+##            default: abc
+#            inputBinding:
+#              position: 3
+#              valueFrom: ssss
       inputBinding:
+        position: 2
         prefix: --in-fq
-    format: edam:format_1930
     doc: FastQ file from next-generation sequencers
-    inputBinding:
-      position: 2
+
 
 outputs:
   - id: bam
