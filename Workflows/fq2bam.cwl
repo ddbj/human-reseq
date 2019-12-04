@@ -19,21 +19,6 @@ inputs:
       - .bwt
       - .pac
       - .sa
-  RG_ID:
-    type: string
-    doc: Read group identifier (ID) in RG line
-  RG_PL:
-    type: string
-    doc: Platform/technology used to produce the read (PL) in RG line
-  RG_PU:
-    type: string
-    doc: Platform Unit (PU) in RG line
-  RG_LB:
-    type: string
-    doc: DNA preparation library identifier (LB) in RG line
-  RG_SM:
-    type: string
-    doc: Sample (SM) identifier in RG line
   fqs:
     type:
       type: array
@@ -44,18 +29,25 @@ inputs:
             type: File # seems file format cannot be specified
           - name: fq2
             type: File # seems file format cannot be specified
-          - name: header
-            type: string
-          - name: opt
+          - name: read_group
             type:
               - type: record
                 fields:
-                  - name: a
+                  - name: RG_ID
                     type: string
-                  - name: b
+                    doc: Read group identifier (ID) in RG line
+                  - name: RG_PL
                     type: string
-
-#    format: edam:format_1930
+                    doc: Platform/technology used to produce the read (PL) in RG line
+                  - name: RG_PU
+                    type: string
+                    doc: Platform Unit (PU) in RG line
+                  - name: RG_LB
+                    type: string
+                    doc: DNA preparation library identifier (LB) in RG line
+                  - name: RG_SM
+                    type: string
+                    doc: Sample (SM) identifier in RG line
     doc: FastQ file from next-generation sequencers
 
 steps:
@@ -64,11 +56,6 @@ steps:
     run: ../Tools/parabricks-fq2bam.cwl
     in:
       reference: reference
-      RG_ID: RG_ID
-      RG_PL: RG_PL
-      RG_PU: RG_PU
-      RG_LB: RG_LB
-      RG_SM: RG_SM
       fqs: fqs
     out:
       [bam, log]
