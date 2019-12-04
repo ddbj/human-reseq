@@ -6,7 +6,7 @@ label: parabricks-fq2bam
 cwlVersion: v1.0
 
 $namespaces:
-  edam: 'http://edamontology.org/'
+  edam: http://edamontology.org/
 
 baseCommand: [ /opt/pkg/parabricks/pbrun, fq2bam ]
 
@@ -88,36 +88,43 @@ inputs:
     inputBinding:
       position: 5
       prefix: --knownSites
+  outprefix:
+    type: string
+  num_gpus:
+    type: int?
+    inputBinding:
+      position: 9
+      prefix: --num-gpus
 
 outputs:
   bam:
     type: File
     format: edam:format_2572
     outputBinding: 
-      glob: mark_dups.bam
+      glob: $(inputs.outprefix).mark_dups.bam
     secondaryFiles:
       - .bai
   recal:
     type: File
     outputBinding:
-      glob: recal.txt
+      glob: $(inputs.outprefix).recal.txt
   dup_metrics:
     type: File
     outputBinding:
-      glob: dup_metrics.txt
+      glob: $(inputs.outprefix).dup_metrics.txt
   log:
     type: stderr
 
 
-stderr: fq2bam.log
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 6
     prefix: --out-bam
-    valueFrom: mark_dups.bam
+    valueFrom: $(inputs.outprefix).mark_dups.bam
   - position: 7
     prefix: --out-recal-file
-    valueFrom: recal.txt
-  - position: 7
+    valueFrom: $(inputs.outprefix).recal.txt
+  - position: 8
     prefix: --out-duplicate-metrics
-    valueFrom: dup_metrics.txt
+    valueFrom: $(inputs.outprefix).dup_metrics.txt
