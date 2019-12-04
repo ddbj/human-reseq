@@ -80,5 +80,5 @@ stderr: fq2bam.log
 
 arguments:
   - position: 3
-    prefix: --out_bam
+    prefix: --out-bam
     valueFrom: markdups.bam
