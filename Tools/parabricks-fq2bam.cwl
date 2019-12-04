@@ -107,7 +107,7 @@ outputs:
   recal:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).recal.txt
+      glob: $(inputs.outprefix).recal.table
   dup_metrics:
     type: File
     outputBinding:
@@ -124,7 +124,7 @@ arguments:
     valueFrom: $(inputs.outprefix).mark_dups.bam
   - position: 7
     prefix: --out-recal-file
-    valueFrom: $(inputs.outprefix).recal.txt
+    valueFrom: $(inputs.outprefix).recal.table
   - position: 8
     prefix: --out-duplicate-metrics
     valueFrom: $(inputs.outprefix).dup_metrics.txt

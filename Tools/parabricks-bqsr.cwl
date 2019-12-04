@@ -68,7 +68,7 @@ outputs:
   recal:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).recal.txt
+      glob: $(inputs.outprefix).recal.table
   log:
     type: stderr
 
@@ -77,4 +77,4 @@ stderr: $(inputs.recal_prefix).log
 arguments:
   - position: 6
     prefix: --out-recal-file
-    valueFrom: $(inputs.outprefix).txt
+    valueFrom: $(inputs.outprefix).recal.table
