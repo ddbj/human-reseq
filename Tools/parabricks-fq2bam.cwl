@@ -30,11 +30,11 @@ inputs:
       items:
         type: record
         fields:
-          - name: fq1
+          - name: read1
             type: File # seems file format cannot be specified
             inputBinding:
               position: 0
-          - name: fq2
+          - name: read2
             type: File # seems file format cannot be specified
             inputBinding:
               position: 1

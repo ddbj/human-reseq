@@ -25,9 +25,9 @@ inputs:
       items:
         type: record
         fields:
-          - name: fq1
+          - name: read1
             type: File # seems file format cannot be specified
-          - name: fq2
+          - name: read2
             type: File # seems file format cannot be specified
           - name: read_group
             type:
