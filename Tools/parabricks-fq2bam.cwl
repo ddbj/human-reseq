@@ -59,7 +59,7 @@ inputs:
                     doc: Sample (SM) identifier in RG line
             inputBinding:
               position: 2
-              valueFrom: "@RG\tID:$(self.RG_ID)\tPL:$(self.RG_PL)\tPU:$(self.RG_PU)\tLB:$(self.RG_LB)\tSM:$(self.RG_SM)"
+              valueFrom: '@RG\\tID:$(self.RG_ID)\\tPL:$(self.RG_PL)\\tPU:$(self.RG_PU)\\tLB:$(self.RG_LB)\\tSM:$(self.RG_SM)'
       inputBinding:
         position: 2
         prefix: --in-fq
