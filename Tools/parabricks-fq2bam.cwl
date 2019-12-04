@@ -8,9 +8,6 @@ cwlVersion: v1.0
 $namespaces:
   edam: 'http://edamontology.org/'
 
-requirements:
-  - class: ShellCommandRequirement
-
 baseCommand: [ /opt/pkg/parabricks/pbrun, fq2bam ]
 
 inputs:
