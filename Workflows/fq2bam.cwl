@@ -49,6 +49,21 @@ inputs:
                     type: string
                     doc: Sample (SM) identifier in RG line
     doc: FastQ file from next-generation sequencers
+  dbsnp:
+    type: File
+    doc: dbSNP data file for base recalibrator
+    secondaryFiles:
+      - .idx
+  mills_indel:
+    type: File
+    doc: Mills indel data file for base recalibrator
+    secondaryFiles:
+      - .idx
+  onek_indel:
+    type: File
+    doc: Onek indel data file for base recalibrator
+    secondaryFiles:
+      - .idx
 
 steps:
   parabricks-fq2bam:
@@ -57,15 +72,23 @@ steps:
     in:
       reference: reference
       fqs: fqs
+      dbsnp: dbsnp
+      mills_indel: mills_indel
+      onek_indel: onek_indel
     out:
-      [bam, log]
+      [bam, recal, dup_metrics, log]
 
 outputs:
   bam:
     type: File
     format: edam:format_2572
     outputSource: parabricks-fq2bam/bam
+  recal:
+    type: File
+    outputSource: parabricks-fq2bam/recal
+  dup_metrics:
+    type: File
+    outputSource: parabricks-fq2bam/dup_metrics
   log:
     type: File
     outputSource: parabricks-fq2bam/log
-

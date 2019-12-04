@@ -11,7 +11,7 @@ $namespaces:
 baseCommand: [ /opt/pkg/parabricks/pbrun, fq2bam ]
 
 inputs:
-  - id: reference
+  reference:
     type: File
     format: edam:format_1929
     inputBinding:
@@ -24,7 +24,7 @@ inputs:
       - .bwt
       - .pac
       - .sa
-  - id: fqs
+  fqs:
     type:
       type: array
       items:
@@ -64,21 +64,60 @@ inputs:
         position: 2
         prefix: --in-fq
     doc: FastQ file from next-generation sequencers
+  dbsnp:
+    type: File
+    doc: dbSNP data file for base recalibrator
+    secondaryFiles:
+      - .idx
+    inputBinding:
+      position: 3
+      prefix: --knownSites
+  mills_indel:
+    type: File
+    doc: Mills indel data file for base recalibrator
+    secondaryFiles:
+      - .idx
+    inputBinding:
+      position: 4
+      prefix: --knownSites
+  onek_indel:
+    type: File
+    doc: Onek indel data file for base recalibrator
+    secondaryFiles:
+      - .idx
+    inputBinding:
+      position: 5
+      prefix: --knownSites
 
 outputs:
-  - id: bam
+  bam:
     type: File
     format: edam:format_2572
     outputBinding: 
-      glob: markdups.bam
+      glob: mark_dups.bam
     secondaryFiles:
       - .bai
-  - id: log
+  recal:
+    type: File
+    outputBinding:
+      glob: recal.txt
+  dup_metrics:
+    type: File
+    outputBinding:
+      glob: dup_metrics.txt
+  log:
     type: stderr
+
 
 stderr: fq2bam.log
 
 arguments:
-  - position: 3
+  - position: 6
     prefix: --out-bam
-    valueFrom: markdups.bam
+    valueFrom: mark_dups.bam
+  - position: 7
+    prefix: --out-recal-file
+    valueFrom: recal.txt
+  - position: 7
+    prefix: --out-duplicate-metrics
+    valueFrom: dup_metrics.txt
