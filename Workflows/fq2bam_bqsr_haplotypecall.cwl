@@ -104,9 +104,7 @@ steps:
     in:
       reference: reference
       fqs: fqs
-      outprefix:
-        source: outprefix
-        valueFrom: $(self).bqsr
+      outprefix: outprefix
       num_gpus: num_gpus
     out:
       [bam, dup_metrics, log]
