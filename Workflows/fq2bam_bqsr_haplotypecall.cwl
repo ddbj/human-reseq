@@ -91,7 +91,7 @@ inputs:
   outprefix:
     type: string
   num_threads:
-    type: int?
+    type: int
     default: 1
     doc: number of cpu cores to be used    
   num_gpus:
@@ -209,13 +209,26 @@ steps:
 #      reference_interval_name: reference_interval_name_chrY
 #      reference_interval_list: reference_interval_list_chrY
 #    out: [wgs_metrics, log]
-#    
+  haplotypecall:
+    label: parabricks_haplotypecaller
+    doc: Haplotype calling using parabricks haplotypecaller
+    run: ../Tools/parabricks-haplotypecaller.cwl
+    in:
+      reference: reference
+      bam: applybqsr/out_bam
+      outprefix: outprefix
+      num_gpus: num_gpus
+    out: [vcf, log]
 
 outputs:
   bam:
     type: File
     format: edam:format_2572
     outputSource: applybqsr/out_bam
+  vcf:
+    type: File
+    format: edam:format_3016
+    outputSource: haplotypecall/vcf
 #  recal:
 #    type: File
 #    outputSource: parabricks-fq2bam/recal

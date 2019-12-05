@@ -1,14 +1,14 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-id: parabricks-applybqsr
-label: parabricks-applybqsr
+id: parabricks-haplotypecaller
+label: parabricks-haplotypecaller
 cwlVersion: v1.0
 
 $namespaces:
   edam: http://edamontology.org/
 
-baseCommand: [ /opt/pkg/parabricks/pbrun, applybqsr ]
+baseCommand: [ /opt/pkg/parabricks/pbrun, haplotypecaller ]
 
 inputs:
   reference:
@@ -24,7 +24,7 @@ inputs:
       - .bwt
       - .pac
       - .sa
-  in_bam:
+  bam:
     type: File
     format: edam:format_2572
     secondaryFiles:
@@ -32,38 +32,30 @@ inputs:
     inputBinding:
       position: 2
       prefix: --in-bam
-  recal:
-    type: File
-    inputBinding:
-      position: 3
-      prefix: --in-recal-file
   outprefix:
     type: string
-  num_threads:
-    type: int?
-    inputBinding:
-      position: 5
-      prefix: --num-threads
   num_gpus:
     type: int?
     inputBinding:
-      position: 6
+      position: 5
       prefix: --num-gpus
 
 outputs:
-  out_bam:
+  vcf:
     type: File
-    format: edam:format_2572    
-    secondaryFiles:
-     - .bai
+    format: edam:format_3016
     outputBinding:
-      glob: $(inputs.outprefix).bam
+      glob: $(inputs.outprefix).g.vcf.gz
+    secondaryFiles:
+      - .tbi
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).log
+stderr: $(inputs.outprefix).g.vcf.gz.log
 
 arguments:
+  - position: 3
+    prefix: --out-variants
+    valueFrom: $(inputs.outprefix).g.vcf.gz
   - position: 4
-    prefix: --out-bam
-    valueFrom: $(inputs.outprefix).bam
+    prefix: --gvcf

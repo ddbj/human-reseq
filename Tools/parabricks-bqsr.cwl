@@ -27,8 +27,8 @@ inputs:
   bam:
     type: File
     format: edam:format_2572
-#    secondaryFiles:
-#     - .bai
+    secondaryFiles:
+     - .bai
     inputBinding:
       position: 2
       prefix: --in-bam
