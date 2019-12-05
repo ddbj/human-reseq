@@ -72,7 +72,7 @@ outputs:
   log:
     type: stderr
 
-stderr: $(inputs.recal_prefix).log
+stderr: $(inputs.outprefix).log
 
 arguments:
   - position: 6
