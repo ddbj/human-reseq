@@ -45,17 +45,16 @@ outputs:
     type: File
     format: edam:format_3016
     outputBinding:
-      glob: $(inputs.outprefix).g.vcf.gz
-    secondaryFiles:
-      - .tbi
+      glob: $(inputs.outprefix).g.vcf
   log:
     type: stderr
 
-stderr: $(inputs.outprefix).g.vcf.gz.log
+stderr: $(inputs.outprefix).g.vcf.log
 
 arguments:
   - position: 3
     prefix: --out-variants
-    valueFrom: $(inputs.outprefix).g.vcf.gz
+    valueFrom: $(inputs.outprefix).g.vcf
   - position: 4
     prefix: --gvcf
+    valueFrom: null
