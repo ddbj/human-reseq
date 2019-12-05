@@ -27,7 +27,7 @@ inputs:
       position: 2
     
 outputs:
-  - id: bqsr_pdf
+  - id: pdf
     type: File
     outputBinding:
       glob: $(inputs.bqsr_table_after.basename).pdf

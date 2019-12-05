@@ -155,60 +155,60 @@ steps:
     in:
       bqsr_table_before: first_bqsr/recal
       bqsr_table_after: second_bqsr/recal
-    out: [bqsr_pdf, log]
-#  picard_CollectMultipleMetrics:
-#    label: picard_CollectMultipleMetrics
-#    doc: Collect multiple metrics using picard
-#    run: ../Tools/picard-CollectMultipleMetrics.cwl
-#    in:
-#      in_bam: applybqsr/out_bam
-#      reference: reference
-#    out: [alignment_summary_metrics, insert_size_metrics, log]
-#  samtools_flagstat:
-#    label: samtools_flagstat
-#    doc: Calculate flagstat using samtools
-#    run: ../Tools/samtools-flagstat.cwl
-#    in:
-#      in_bam: applybqsr/out_bam
-#      nthreads: num_threads
-#    out: [flagstat]
-#  samtools_idxstats:
-#    label: samtools_idxstats
-#    doc: Calculate idxstats using samtools
-#    run: ../Tools/samtools-idxstats.cwl
-#    in:
-#      in_bam: applybqsr/out_bam
-#    out: [idxstats]
-#  picard_CollectWgsMetrics_autosome:
-#    label: picard_CollectWgsMetrics
-#    doc: Collect WGS metrics using picard
-#    run: ../Tools/picard-CollectWgsMetrics.cwl
-#    in:
-#      in_bam: applybqsr/out_bam
-#      reference: reference
-#      reference_interval_name: reference_interval_name_autosome
-#      reference_interval_list: reference_interval_list_autosome
-#    out: [wgs_metrics, log]
-#  picard_CollectWgsMetrics_chrX:
-#    label: picard_CollectWgsMetrics
-#    doc: Collect WGS metrics using picard
-#    run: ../Tools/picard-CollectWgsMetrics.cwl
-#    in:
-#      in_bam: applybqsr/out_bam
-#      reference: reference
-#      reference_interval_name: reference_interval_name_chrX
-#      reference_interval_list: reference_interval_list_chrX
-#    out: [wgs_metrics, log]
-#  picard_CollectWgsMetrics_chrY:
-#    label: picard_CollectWgsMetrics
-#    doc: Collect WGS metrics using picard
-#    run: ../Tools/picard-CollectWgsMetrics.cwl
-#    in:
-#      in_bam: applybqsr/out_bam
-#      reference: reference
-#      reference_interval_name: reference_interval_name_chrY
-#      reference_interval_list: reference_interval_list_chrY
-#    out: [wgs_metrics, log]
+    out: [pdf, log]
+  picard_CollectMultipleMetrics:
+    label: picard_CollectMultipleMetrics
+    doc: Collect multiple metrics using picard
+    run: ../Tools/picard-CollectMultipleMetrics.cwl
+    in:
+      in_bam: applybqsr/out_bam
+      reference: reference
+    out: [alignment_summary_metrics, insert_size_metrics, log]
+  samtools_flagstat:
+    label: samtools_flagstat
+    doc: Calculate flagstat using samtools
+    run: ../Tools/samtools-flagstat.cwl
+    in:
+      in_bam: applybqsr/out_bam
+      nthreads: num_threads
+    out: [flagstat]
+  samtools_idxstats:
+    label: samtools_idxstats
+    doc: Calculate idxstats using samtools
+    run: ../Tools/samtools-idxstats-x.cwl
+    in:
+      in_bam: applybqsr/out_bam
+    out: [idxstats]
+  picard_CollectWgsMetrics_autosome:
+    label: picard_CollectWgsMetrics
+    doc: Collect WGS metrics using picard
+    run: ../Tools/picard-CollectWgsMetrics.cwl
+    in:
+      in_bam: applybqsr/out_bam
+      reference: reference
+      reference_interval_name: reference_interval_name_autosome
+      reference_interval_list: reference_interval_list_autosome
+    out: [wgs_metrics, log]
+  picard_CollectWgsMetrics_chrX:
+    label: picard_CollectWgsMetrics
+    doc: Collect WGS metrics using picard
+    run: ../Tools/picard-CollectWgsMetrics.cwl
+    in:
+      in_bam: applybqsr/out_bam
+      reference: reference
+      reference_interval_name: reference_interval_name_chrX
+      reference_interval_list: reference_interval_list_chrX
+    out: [wgs_metrics, log]
+  picard_CollectWgsMetrics_chrY:
+    label: picard_CollectWgsMetrics
+    doc: Collect WGS metrics using picard
+    run: ../Tools/picard-CollectWgsMetrics.cwl
+    in:
+      in_bam: applybqsr/out_bam
+      reference: reference
+      reference_interval_name: reference_interval_name_chrY
+      reference_interval_list: reference_interval_list_chrY
+    out: [wgs_metrics, log]
   haplotypecall:
     label: parabricks_haplotypecaller
     doc: Haplotype calling using parabricks haplotypecaller
@@ -221,21 +221,85 @@ steps:
     out: [vcf, log]
 
 outputs:
-  bam:
+  picard_collect_multiple_metrics_alignment_summary_metrics:
     type: File
-    format: edam:format_2572
+    outputSource: picard_CollectMultipleMetrics/alignment_summary_metrics
+    secondaryFiles:
+      - ^.bait_bias_detail_metrics
+      - ^.bait_bias_summary_metrics
+      - ^.base_distribution_by_cycle_metrics
+      - ^.base_distribution_by_cycle.pdf
+      - ^.error_summary_metrics
+      - ^.gc_bias.detail_metrics
+      - ^.gc_bias.pdf
+      - ^.gc_bias.summary_metrics
+      - ^.pre_adapter_detail_metrics
+      - ^.pre_adapter_summary_metrics
+      - ^.quality_by_cycle_metrics
+      - ^.quality_by_cycle.pdf
+      - ^.quality_distribution_metrics
+      - ^.quality_distribution.pdf
+  picard_collect_multiple_metrics_insert_size_metrics:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/insert_size_metrics
+    secondaryFiles:
+      - ^.insert_size_histogram.pdf
+  picard_collect_multiple_metrics_log:
+    type: File
+    outputSource: picard_CollectMultipleMetrics/log
+  samtools_flagstat_flagstat:
+    type: File
+    outputSource: samtools_flagstat/flagstat
+  samtools_idxstats_idxstats:
+    type: File
+    outputSource: samtools_idxstats/idxstats
+  picard_CollectWgsMetrics_autosome_wgs_metrics:
+    type: File
+    outputSource: picard_CollectWgsMetrics_autosome/wgs_metrics
+  picard_CollectWgsMetrics_autosome_log:
+    type: File
+    outputSource: picard_CollectWgsMetrics_autosome/log
+  picard_CollectWgsMetrics_chrX_wgs_metrics:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrX/wgs_metrics
+  picard_CollectWgsMetrics_chrX_log:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrX/log
+  picard_CollectWgsMetrics_chrY_wgs_metrics:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrY/wgs_metrics
+  picard_CollectWgsMetrics_chrY_log:
+    type: File
+    outputSource: picard_CollectWgsMetrics_chrY/log
+  first_bqsr_table:
+    type: File
+    outputSource: first_bqsr/recal
+  first_bqsr_log:
+    type: File
+    outputSource: first_bqsr/log
+  second_bqsr_table:
+    type: File
+    outputSource: second_bqsr/recal
+  second_bqsr_log:
+    type: File
+    outputSource: second_bqsr/log
+  analyze_covariates_pdf:
+    type: File
+    outputSource: analyze_covariates/pdf
+  analyze_covariates_log:
+    type: File
+    outputSource: analyze_covariates/log
+  applybqsr_bam:
+    type: File
     outputSource: applybqsr/out_bam
-  vcf:
+  applybqsr_log:
+    type: File
+    outputSource: applybqsr/log
+  haplotypecall_vcf:
     type: File
     format: edam:format_3016
     outputSource: haplotypecall/vcf
-#  recal:
-#    type: File
-#    outputSource: parabricks-fq2bam/recal
-#  dup_metrics:
-#    type: File
-#    outputSource: parabricks-fq2bam/dup_metrics
-#  log:
-#    type: File
-#    outputSource: parabricks-fq2bam/log
-#
+  haplotypecall_log:
+    type: File
+    format: edam:format_3016
+    outputSource: haplotypecall/log
