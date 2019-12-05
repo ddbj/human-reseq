@@ -6,7 +6,10 @@ label: fq2bam_bqsr_haplotypecall
 cwlVersion: v1.0
 
 $namespaces:
-  edam: 'http://edamontology.org/'
+  edam: http://edamontology.org/
+
+requirements:
+  - class: StepInputExpressionRequirement
 
 inputs:
   reference:
