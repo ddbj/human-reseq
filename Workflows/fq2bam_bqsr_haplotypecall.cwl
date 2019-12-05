@@ -108,7 +108,8 @@ steps:
       mills_indel: mills_indel
       onek_indel: onek_indel
       outprefix:
-        valueFrom: $(inputs.outprefix).bqsr
+        source: outprefix
+        valueFrom: $(self).bqsr
       num_gpus: num_gpus
     out:
       [bam, recal, dup_metrics, log]
@@ -120,7 +121,8 @@ steps:
       in_bam: fq2bam_bqsr/bam
       recal: fq2bam_bqsr/recal
       outprefix:
-        valueFrom: $(inputs.outprefix).bqsr
+        source: outprefix
+        valueFrom: $(self).bqsr
       num_threads: num_threads
       num_gpus: num_gpus
     out: [out_bam, log]
@@ -134,7 +136,8 @@ steps:
       mills_indel: mills_indel
       onek_indel: onek_indel
       outprefix:
-        valueFrom: $(inputs.outprefix).second_bqsr
+        source: outprefix
+        valueFrom: $(self).second_bqsr
       num_gpus: num_gpus
     out: [recal, log]
   analyze_covariates:
