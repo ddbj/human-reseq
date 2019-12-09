@@ -100,35 +100,24 @@ inputs:
 steps:
   fq2bam:
     label: fq2bam
-    run: ../Tools/parabricks-fq2bam-without-bqsr.cwl
+    run: ../Tools/parabricks-fq2bam.cwl
     in:
       reference: reference
       fqs: fqs
-      outprefix: outprefix
-      num_gpus: num_gpus
-    out:
-      [bam, dup_metrics, log]
-  first_bqsr:
-    label: first_bqsr
-    run: ../Tools/parabricks-bqsr.cwl
-    in:
-      reference: reference
-      bam: fq2bam/bam
       dbsnp: dbsnp
       mills_indel: mills_indel
       onek_indel: onek_indel
-      outprefix:
-        source: outprefix
-        valueFrom: $(self).bqsr
+      outprefix: outprefix
       num_gpus: num_gpus
-    out: [recal, log]
+    out:
+      [bam, recal, dup_metrics, log]
   applybqsr:
     label: applybqsr
     run: ../Tools/parabricks-applybqsr.cwl
     in:
       reference: reference
       in_bam: fq2bam/bam
-      recal: first_bqsr/recal
+      recal: fq2bam/recal
       outprefix:
         source: outprefix
         valueFrom: $(self).bqsr
@@ -149,13 +138,13 @@ steps:
         valueFrom: $(self).second_bqsr
       num_gpus: num_gpus
     out: [recal, log]
-  analyze_covariates:
-    label: analyze_covariates
-    run: ../Tools/gatk4-AnalyzeCovariates.cwl
-    in:
-      bqsr_table_before: first_bqsr/recal
-      bqsr_table_after: second_bqsr/recal
-    out: [pdf, log]
+#  analyze_covariates:
+#    label: analyze_covariates
+#    run: ../Tools/gatk4-AnalyzeCovariates.cwl
+#    in:
+#      bqsr_table_before: fq2bam/recal
+#      bqsr_table_after: second_bqsr/recal
+#    out: [pdf, log]
   picard_CollectMultipleMetrics:
     label: picard_CollectMultipleMetrics
     doc: Collect multiple metrics using picard
@@ -271,24 +260,24 @@ outputs:
   picard_CollectWgsMetrics_chrY_log:
     type: File
     outputSource: picard_CollectWgsMetrics_chrY/log
-  first_bqsr_table:
-    type: File
-    outputSource: first_bqsr/recal
-  first_bqsr_log:
-    type: File
-    outputSource: first_bqsr/log
+#  first_bqsr_table:
+#    type: File
+#    outputSource: first_bqsr/recal
+#  first_bqsr_log:
+#    type: File
+#    outputSource: first_bqsr/log
   second_bqsr_table:
     type: File
     outputSource: second_bqsr/recal
   second_bqsr_log:
     type: File
     outputSource: second_bqsr/log
-  analyze_covariates_pdf:
-    type: File
-    outputSource: analyze_covariates/pdf
-  analyze_covariates_log:
-    type: File
-    outputSource: analyze_covariates/log
+#  analyze_covariates_pdf:
+#    type: File
+#    outputSource: analyze_covariates/pdf
+#  analyze_covariates_log:
+#    type: File
+#    outputSource: analyze_covariates/log
   applybqsr_bam:
     type: File
     outputSource: applybqsr/out_bam
