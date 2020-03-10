@@ -1,8 +1,8 @@
 #!/usr/bin/env cwl-runner
 
 class: Workflow
-id: parabricks_germline
-label: parabricks_germline
+id: germline
+label: germline
 cwlVersion: v1.0
 
 $namespaces:
