@@ -82,6 +82,8 @@ outputs:
     type: File
     format: edam:format_2572
     outputSource: germline/bam
+    secondaryFiles:
+      - .bai
   recal:
     type: File
     outputSource: germline/recal
