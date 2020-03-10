@@ -8,7 +8,7 @@ cwlVersion: v1.0
 $namespaces:
   edam: http://edamontology.org/
 
-baseCommand: [ /opt/pkg/parabricks/pbrun, fq2bam ]
+baseCommand: [ /opt/pkg/parabricks/pbrun, germline ]
 
 inputs:
   reference:
@@ -31,38 +31,17 @@ inputs:
         type: record
         fields:
           - name: read1
-            type: File # seems file format cannot be specified
-            inputBinding:
-              position: 0
-          - name: read2
-            type: File # seems file format cannot be specified
+            type: File
             inputBinding:
               position: 1
-          - name: read_group
-            type:
-              - type: record
-                fields:
-                  - name: RG_ID
-                    type: string
-                    doc: Read group identifier (ID) in RG line
-                  - name: RG_PL
-                    type: string
-                    doc: Platform/technology used to produce the read (PL) in RG line
-                  - name: RG_PU
-                    type: string
-                    doc: Platform Unit (PU) in RG line
-                  - name: RG_LB
-                    type: string
-                    doc: DNA preparation library identifier (LB) in RG line
-                  - name: RG_SM
-                    type: string
-                    doc: Sample (SM) identifier in RG line
+          - name: read2
+            type: File
             inputBinding:
               position: 2
-              valueFrom: '@RG\\tID:$(self.RG_ID)\\tPL:$(self.RG_PL)\\tPU:$(self.RG_PU)\\tLB:$(self.RG_LB)\\tSM:$(self.RG_SM)'
       inputBinding:
-        position: 2
         prefix: --in-fq
+    inputBinding:
+      position: 2
     doc: FastQ file from next-generation sequencers
   dbsnp:
     type: File
@@ -93,28 +72,28 @@ inputs:
   num_gpus:
     type: int?
     inputBinding:
-      position: 9
+      position: 10
       prefix: --num-gpus
 
 outputs:
   bam:
     type: File
     format: edam:format_2572
-    outputBinding: 
+    outputBinding:
       glob: $(inputs.outprefix).mark_dups.bam
     secondaryFiles:
       - .bai
   recal:
     type: File
     outputBinding:
-      glob: $(inputs.outprefix).recal.table
-  dup_metrics:
+      glob: $(inputs.outprefix).bqsr.recal.table
+  gvcf:
     type: File
+    format: edam:format_3016
     outputBinding:
-      glob: $(inputs.outprefix).dup_metrics.txt
+      glob: $(inputs.outprefix).g.vcf
   log:
     type: stderr
-
 
 stderr: $(inputs.outprefix).log
 
@@ -123,8 +102,10 @@ arguments:
     prefix: --out-bam
     valueFrom: $(inputs.outprefix).mark_dups.bam
   - position: 7
+    prefix: --out-variants
+    valueFrom: $(inputs.outprefix).g.vcf
+  - position: 7
     prefix: --out-recal-file
     valueFrom: $(inputs.outprefix).recal.table
-  - position: 8
-    prefix: --out-duplicate-metrics
-    valueFrom: $(inputs.outprefix).dup_metrics.txt
+  - position: 9
+    valueFrom: --gvcf

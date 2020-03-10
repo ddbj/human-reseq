@@ -11,7 +11,7 @@ $namespaces:
 hints:
   - class: DockerRequirement
     dockerPull: 'quay.io/biocontainers/htslib:1.9--h47928c2_5'
-    
+
 requirements:
   - class: ShellCommandRequirement
   - class: ResourceRequirement
@@ -32,6 +32,5 @@ outputs:
     type: stdout
 
 stdout: $(inputs.in_file.basename).gz
-    
-arguments: []
 
+arguments: []
