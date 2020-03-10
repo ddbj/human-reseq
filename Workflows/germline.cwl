@@ -87,7 +87,7 @@ outputs:
   recal:
     type: File
     outputSource: germline/recal
-  gvcf_compressed:
+  gvcf_gz:
     type: File
     format: edam:format_3016
     outputSource: htslib_bgzip/gz_file
@@ -95,6 +95,6 @@ outputs:
     type: File
     format: edam:format_3700
     outputSource: bcftools_index/vcf_tbi
-  germline_log:
+  log:
     type: File
     outputSource: germline/log
