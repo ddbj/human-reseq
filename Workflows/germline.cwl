@@ -91,7 +91,7 @@ outputs:
     type: File
     format: edam:format_3016
     outputSource: htslib_bgzip/gz_file
-  gvcf_tabix:
+  gvcf_tbi:
     type: File
     format: edam:format_3700
     outputSource: bcftools_index/vcf_tbi
