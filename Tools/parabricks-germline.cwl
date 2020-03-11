@@ -104,7 +104,7 @@ arguments:
   - position: 7
     prefix: --out-variants
     valueFrom: $(inputs.outprefix).g.vcf
-  - position: 7
+  - position: 8
     prefix: --out-recal-file
     valueFrom: $(inputs.outprefix).recal.table
   - position: 9
