@@ -1,0 +1,21 @@
+reference: /path/to/reference.fasta
+nthreads: 2
+inputSamples:
+  - RG_ID: string
+    RG_PL: string
+    RG_PU: string
+    RG_LB: string
+    RG_SM: string
+    fq:
+      class: File
+      path: /path/to/data1.fastq
+    outprefix: data1
+  - RG_ID: string
+    RG_PL: string
+    RG_PU: string
+    RG_LB: string
+    RG_SM: string
+    fq:
+      class: File
+      path: /path/to/data2.fastq
+    outprefix: data2
