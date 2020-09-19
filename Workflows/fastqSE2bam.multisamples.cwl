@@ -1,8 +1,9 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-  - SubworkflowFeatureRequirement: {}
-  - StepInputExpressionRequirement: {}
+  SubworkflowFeatureRequirement: {}
+  ScatterFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   reference:
@@ -19,23 +20,24 @@ inputs:
     type: int
   inputSamples:
     type:
-      type: record[]
-      name: samples
-      fields:
-        - name: RG_ID
-          type: string
-        - name: RG_PL
-          type: string
-        - name: RG_PU
-          type: string
-        - name: RG_LB
-          type: string
-        - name: RG_SM
-          type: string
-        - name: fq
-          type: File
-        - name: outprefix
-          type: string
+      type: array
+      items:
+        - type: record
+          fields:
+            RG_ID:
+              type: string
+            RG_PL:
+              type: string
+            RG_PU:
+              type: string
+            RG_LB:
+              type: string
+            RG_SM:
+              type: string
+            fq:
+              type: File
+            outprefix:
+              type: string
 
 steps:
   fastqSE2bam:
@@ -44,19 +46,19 @@ steps:
       reference: reference
       nthreads: nthreads
       RG_ID:
-        valueFrom: inputSamples.RG_ID
+        valueFrom: $(inputs.inputSamples.RG_ID)
       RG_PL:
-        valueFrom: inputSamples.RG_PL
+        valueFrom: $(inputs.inputSamples.RG_PL)
       RG_PU:
-        valueFrom: inputSamples.RG_PU
+        valueFrom: $(inputs.inputSamples.RG_PU)
       RG_LB:
-        valueFrom: inputSamples.RG_LB
+        valueFrom: $(inputs.inputSamples.RG_LB)
       RG_SM:
-        valueFrom: inputSamples.RG_SM
+        valueFrom: $(inputs.inputSamples.RG_SM)
       fq:
-        valueFrom: inputSamples.fq
+        valueFrom: $(inputs.inputSamples.fq)
       outprefix:
-        valueFrom: inputSamples.outprefix
+        valueFrom: $(inputs.inputSamples.outprefix)
     scatter:
       - RG_ID
       - RG_PL
@@ -71,3 +73,17 @@ steps:
       - sam_log
       - bam
       - bam_log
+
+outputs:
+  sam:
+    type: File[]
+    outputSource: fastqSE2bam/sam
+  sam_log:
+    type: File[]
+    outputSource: fastqSE2bam/sam_log
+  bam:
+    type: File[]
+    outputSource: fastqSE2bam/bam
+  bam_log:
+    type: File[]
+    outputSource: fastqSE2bam/bam_log
