@@ -45,6 +45,7 @@ steps:
     in:
       reference: reference
       nthreads: nthreads
+      inputSamples: inputSamples
       RG_ID:
         valueFrom: $(inputs.inputSamples.RG_ID)
       RG_PL:
@@ -60,13 +61,7 @@ steps:
       outprefix:
         valueFrom: $(inputs.inputSamples.outprefix)
     scatter:
-      - RG_ID
-      - RG_PL
-      - RG_PU
-      - RG_LB
-      - RG_SM
-      - fq
-      - outprefix
+      - inputSamples
     scatterMethod: dotproduct
     out:
       - sam
