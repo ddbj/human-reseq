@@ -1,5 +1,6 @@
 reference:
   class: File
+  format: http://edamontology.org/format_1929
   path: reference.fasta
 nthreads: 2
 inputSamples:
@@ -10,6 +11,7 @@ inputSamples:
     RG_SM: RG_SM_1
     fq:
       class: File
+      format: http://edamontology.org/format_1930
       path: data1.fastq
     outprefix: data1
   - RG_ID: RG_ID_2
@@ -19,5 +21,6 @@ inputSamples:
     RG_SM: RG_SM_2
     fq:
       class: File
+      format: http://edamontology.org/format_1930
       path: data2.fastq
     outprefix: data2

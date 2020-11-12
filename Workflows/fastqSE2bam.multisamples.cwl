@@ -1,5 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
+$namespaces:
+  edam: 'http://edamontology.org/'
+
 requirements:
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
