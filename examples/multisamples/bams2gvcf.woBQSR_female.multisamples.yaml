@@ -1,0 +1,28 @@
+reference_interval_name_chrY: chrY  # default value of type "string".
+reference_interval_name_chrX: chrX  # default value of type "string".
+reference_interval_name_autosome: autosome  # default value of type "string".
+reference_interval_list_chrY:  # type "File"
+    class: File
+    path: ../../human-reseq.REF/hs37d5.fa.chrY.interval_list
+reference_interval_list_chrX:  # type "File"
+    class: File
+    path: ../../human-reseq.REF/hs37d5.fa.chrX.interval_list
+reference_interval_list_autosome:  # type "File"
+    class: File
+    path: ../../human-reseq.REF/hs37d5.fa.autosomal.interval_list
+reference:  # type "File"
+    class: File
+    format: http://edamontology.org/format_1929
+    path: ../../human-reseq.REF/hs37d5.fa
+nthreads: 16  # type "int"
+inputSamples:  # array of 
+  - outprefix: NA18940.woBQSR_female  # type "string"
+    bam_files:  # array of type "File"
+      - class: File
+        path: NA18940-multisamples.bam
+        format: http://edamontology.org/format_2572
+  - outprefix: NA18945.woBQSR_female  # type "string"
+    bam_files:  # array of type "File"
+      - class: File
+        path: NA18945-multisamples.bam
+        format: http://edamontology.org/format_2572

@@ -1,0 +1,34 @@
+reference:
+    class: File
+    format: http://edamontology.org/format_1929
+    path: ../../human-reseq.REF/hs37d5.fa
+nthreads: 16 # type "int"
+inputSamples:
+  - RG_ID: NA18940 # type "string"
+    RG_PL: ILLUMINA # type "string"
+    RG_PU: NA18940 # type "string"
+    RG_LB: NA18940 # type "string"
+    RG_SM: NA18940 # type "string"
+    fq1:
+        class: File
+        path: ../../human-reseq.DATA/NA18940.prob0.001.rep0_1.fastq.gz
+        format: http://edamontology.org/format_1930
+    fq2:
+        class: File
+        path: ../../human-reseq.DATA/NA18940.prob0.001.rep0_2.fastq.gz
+        format: http://edamontology.org/format_1930
+    outprefix: NA18940-multisamples # type "string"
+  - RG_ID: NA18945 # type "string"
+    RG_PL: ILLUMINA # type "string"
+    RG_PU: NA18945 # type "string"
+    RG_LB: NA18945 # type "string"
+    RG_SM: NA18945 # type "string"
+    fq1:
+        class: File
+        path: ../../human-reseq.DATA/NA18945.prob0.001.rep0_1.fastq.gz
+        format: http://edamontology.org/format_1930
+    fq2:
+        class: File
+        path: ../../human-reseq.DATA/NA18945.prob0.001.rep0_2.fastq.gz
+        format: http://edamontology.org/format_1930
+    outprefix: NA18945-multisamples # type "string"

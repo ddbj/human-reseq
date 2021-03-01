@@ -1,0 +1,28 @@
+reference:  # type "File"
+    class: File
+    path: /home/manabu/data/extract/hs37d5.release-20190328/hs37d5.fa
+    format: http://edamontology.org/format_1929
+nthreads: 16  # type "int"
+inputSamples:  # array of 
+  - outprefix: NA18945.bams2gvcf.woBQSR_female_chrX  # type "string"
+    chrXY_outprefix: NA18945.bams2gvcf.woBQSR_female_chrX.chrXY # type 
+    bam_files:  # array of type "File"
+      - class: File
+        path: NA18945-multisamples.bam
+        format: http://edamontology.org/format_2572
+    RG_SM: NA18945  # type "string"
+    RG_PU: NA18945  # type "string"
+    RG_PL: ILLUMINA  # type "string"
+    RG_LB: NA18945  # type "string"
+    RG_ID: NA18945  # type "string"
+  - outprefix: NA18940.bams2gvcf.woBQSR_female_chrX  # type "string"
+    chrXY_outprefix: NA18940.bams2gvcf.woBQSR_female_chrX.chrXY # type 
+    bam_files:  # array of type "File"
+      - class: File
+        path: NA18940-multisamples.bam
+        format: http://edamontology.org/format_2572
+    RG_SM: NA18940  # type "string"
+    RG_PU: NA18940  # type "string"
+    RG_PL: ILLUMINA  # type "string"
+    RG_LB: NA18940  # type "string"
+    RG_ID: NA18940  # type "string"
