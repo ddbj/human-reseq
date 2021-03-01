@@ -37,14 +37,16 @@ inputs:
               type: string
             RG_SM:
               type: string
-            fq:
+            fq1:
+              type: File
+            fq2:
               type: File
             outprefix:
               type: string
 
 steps:
-  fastqSE2bam:
-    run: fastqSE2bam.cwl
+  fastqPE2bam:
+    run: fastqPE2bam.cwl
     in:
       reference: reference
       nthreads: nthreads
@@ -59,8 +61,10 @@ steps:
         valueFrom: $(inputs.inputSamples.RG_LB)
       RG_SM:
         valueFrom: $(inputs.inputSamples.RG_SM)
-      fq:
-        valueFrom: $(inputs.inputSamples.fq)
+      fq1:
+        valueFrom: $(inputs.inputSamples.fq1)
+      fq2:
+        valueFrom: $(inputs.inputSamples.fq2)
       outprefix:
         valueFrom: $(inputs.inputSamples.outprefix)
     scatter:
@@ -75,13 +79,13 @@ steps:
 outputs:
   sam:
     type: File[]
-    outputSource: fastqSE2bam/sam
+    outputSource: fastqPE2bam/sam
   sam_log:
     type: File[]
-    outputSource: fastqSE2bam/sam_log
+    outputSource: fastqPE2bam/sam_log
   bam:
     type: File[]
-    outputSource: fastqSE2bam/bam
+    outputSource: fastqPE2bam/bam
   bam_log:
     type: File[]
-    outputSource: fastqSE2bam/bam_log
+    outputSource: fastqPE2bam/bam_log
