@@ -1,0 +1,37 @@
+reference:  # type "File"
+    class: File
+    format: http://edamontology.org/format_1929
+    location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa
+    secondaryFiles:
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.dict
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.amb
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.ann
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.autosomal.interval_list
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.bwt
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.chrX.interval_list
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.chrY.interval_list
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.fai
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.pac
+      - class: File
+        location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/hs37d5.release-20190328/hs37d5.fa.sa
+outprefix: test  # type "string"
+nthreads: 0  # type "int"
+fq:  # type "File"
+    class: File
+    format: http://edamontology.org/format_1930
+    location: http://data.dbcls.jp/~inutano/human-reseq/test/data/human-reseq-test-data/fastq/NA18940.prob0.001.rep0_1.fastq.gz
+RG_ID: ERR034597 # type "string"
+RG_PL: ILLUMINA # type "string"
+RG_PU: ERR034597 # type "string"
+RG_LB: ERR034597 # type "string"
+RG_SM: NA18942 # type "string"
+
